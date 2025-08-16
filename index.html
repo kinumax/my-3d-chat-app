@@ -3,23 +3,846 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My 3D Chat App</title>
+    <title>FamiPic - 家族写真共有アプリ</title>
     <style>
-        body { margin: 0; overflow: hidden; background-color: #f0f0f0; }
-        canvas { display: block; }
-        #message {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        .app {
+            max-width: 448px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: #f9fafb;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ec4899, #fb923c);
+            padding: 1rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .content {
+            padding: 1rem;
+            padding-bottom: 5rem;
+        }
+
+        .family-header {
+            background: linear-gradient(135deg, #ec4899, #fb923c);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .family-header h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .family-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .post-header {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #ec4899, #fb923c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 16rem;
+            object-fit: cover;
+        }
+
+        .post-content {
+            padding: 1rem;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #ec4899;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #fdf2f8;
+        }
+
+        .comments {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .comment {
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            outline: none;
+        }
+
+        .comment-input:focus {
+            border-color: #ec4899;
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
+        }
+
+        .comment-submit {
+            background: #ec4899;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .comment-submit:hover {
+            background: #db2777;
+        }
+
+        .upload-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .upload-content {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .upload-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-btn {
+            width: 2rem;
+            height: 2rem;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: #ec4899;
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
+        }
+
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: #ec4899;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            background: #ec4899;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-label:hover {
+            background: #db2777;
+        }
+
+        .image-preview {
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 12rem;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        .remove-image {
             position: absolute;
-            top: 50%;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ec4899, #fb923c);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
             left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: sans-serif;
-            font-size: 24px;
-            color: #333;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 448px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .nav-btn.active {
+            color: #ec4899;
+            background: #fdf2f8;
+        }
+
+        .nav-text {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .members-grid {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .privacy-notice {
+            background: #fdf2f8;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 1.5rem;
+        }
+
+        /* SVG Icons */
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: currentColor;
+        }
+
+        .icon-lg {
+            width: 1.5rem;
+            height: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <div id="message">Loading 3D scene...</div>
-    <script src="script.js"></script>
+    <div class="app">
+        <!-- ヘッダー -->
+        <header class="header">
+            <h1>📱 FamiPic</h1>
+            <button class="add-btn" onclick="showUpload()" id="addBtn">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 4v16m8-8H4"/>
+                </svg>
+            </button>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="content">
+            <!-- ホーム画面 -->
+            <div id="homeTab">
+                <div class="family-header">
+                    <h2>💖 田中家のアルバム</h2>
+                    <p style="opacity: 0.9;">家族だけの特別な思い出</p>
+                    <div class="family-stats">
+                        <div class="stat">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="m22 21-3-3m0 0a5 5 0 1 0-7 0 5 5 0 0 0 7 0z"/>
+                            </svg>
+                            <span>4人の家族</span>
+                        </div>
+                        <div class="stat">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="m12 1 3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/>
+                            </svg>
+                            <span id="photoCount">1枚の写真</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="postsContainer">
+                    <!-- 投稿がここに表示されます -->
+                </div>
+            </div>
+
+            <!-- メンバー画面 -->
+            <div id="membersTab" class="hidden">
+                <div class="members-grid">
+                    <h2 style="margin-bottom: 1rem; font-weight: bold;">👨‍👩‍👧‍👦 家族メンバー</h2>
+                    <div class="member-item">
+                        <div class="member-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">お</div>
+                        <div>
+                            <h3 style="font-weight: 600;">お父さん</h3>
+                            <p style="font-size: 0.875rem; color: #6b7280;">管理者</p>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">お</div>
+                        <div>
+                            <h3 style="font-weight: 600;">お母さん</h3>
+                            <p style="font-size: 0.875rem; color: #6b7280;">オンライン</p>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">娘</div>
+                        <div>
+                            <h3 style="font-weight: 600;">娘</h3>
+                            <p style="font-size: 0.875rem; color: #6b7280;">オンライン</p>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar" style="background: linear-gradient(135deg, #ec4899, #fb923c);">あ</div>
+                        <div>
+                            <h3 style="font-weight: 600;">あなた</h3>
+                            <p style="font-size: 0.875rem; color: #6b7280;">今ここ</p>
+                        </div>
+                    </div>
+                    <div class="privacy-notice">
+                        🔒 このアプリは家族専用です<br/>
+                        安全に思い出を共有できます
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <h3 style="font-weight: bold; margin-bottom: 0.75rem;">📊 家族の活動</h3>
+                    <div class="stat-row">
+                        <span style="color: #6b7280;">今月の投稿</span>
+                        <span style="font-weight: 600;" id="monthlyPosts">1枚</span>
+                    </div>
+                    <div class="stat-row">
+                        <span style="color: #6b7280;">総いいね数</span>
+                        <span style="font-weight: 600;" id="totalLikes">3</span>
+                    </div>
+                    <div class="stat-row">
+                        <span style="color: #6b7280;">コメント数</span>
+                        <span style="font-weight: 600;" id="totalComments">2</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- アップロードモーダル -->
+        <div id="uploadModal" class="upload-modal hidden">
+            <div class="upload-content">
+                <div class="upload-header">
+                    <h2 style="font-weight: bold;">📸 新しい写真をシェア</h2>
+                    <button class="close-btn" onclick="hideUpload()">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M18 6L6 18M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📍 場所・イベント</label>
+                    <input type="text" class="form-input" id="locationInput" placeholder="例: 家族旅行 - 海辺、誕生日パーティー">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📷 写真を選択</label>
+                    <div class="file-upload" id="fileUpload">
+                        <svg class="icon-lg" viewBox="0 0 24 24" style="margin: 0 auto 1rem; display: block;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7,10 12,15 17,10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">写真をアップロード</p>
+                        <input type="file" class="file-input" id="photoInput" accept="image/*">
+                        <label for="photoInput" class="file-label">ファイルを選択</label>
+                    </div>
+                    <div id="imagePreview" class="image-preview hidden">
+                        <img id="previewImg" class="preview-image" src="" alt="プレビュー">
+                        <button class="remove-image" onclick="removeImage()">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M18 6L6 18M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">💬 コメント</label>
+                    <textarea class="form-textarea" id="captionInput" rows="4" placeholder="この写真について家族に伝えたいことを書いてください..."></textarea>
+                </div>
+
+                <button class="submit-btn" onclick="submitPost()" id="submitBtn" disabled>
+                    📤 家族に共有する
+                </button>
+            </div>
+        </div>
+
+        <!-- ボトムナビゲーション -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" onclick="showTab('home')" id="homeBtn">
+                <svg class="icon-lg" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="m12 1 3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/>
+                </svg>
+                <span class="nav-text">ホーム</span>
+            </button>
+            <button class="nav-btn" onclick="showTab('members')" id="membersBtn">
+                <svg class="icon-lg" viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="m22 21-3-3m0 0a5 5 0 1 0-7 0 5 5 0 0 0 7 0z"/>
+                </svg>
+                <span class="nav-text">家族</span>
+            </button>
+        </nav>
+    </div>
+
+    <script>
+        // アプリの状態
+        let posts = [
+            {
+                id: 1,
+                user: 'お父さん',
+                avatar: 'お',
+                location: '家族旅行 - 温泉',
+                date: '2024年8月10日',
+                image: 'https://images.unsplash.com/photo-1544618300-e8ea8e6ac342?w=400&h=300&fit=crop',
+                caption: 'みんなで入った温泉、最高でした！リフレッシュできた〜♨️',
+                likes: 3,
+                comments: [
+                    { user: 'お母さん', text: 'お疲れさま！いい湯だったね' },
+                    { user: '娘', text: 'また行きたい！' }
+                ]
+            }
+        ];
+
+        let currentTab = 'home';
+        let selectedImage = null;
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPosts();
+            updateStats();
+            
+            // ファイル選択の処理
+            document.getElementById('photoInput').addEventListener('change', handleImageSelect);
+            
+            // 入力フィールドの監視
+            document.getElementById('locationInput').addEventListener('input', validateForm);
+            document.getElementById('captionInput').addEventListener('input', validateForm);
+        });
+
+        // タブ切り替え
+        function showTab(tab) {
+            currentTab = tab;
+            
+            // タブコンテンツの表示切り替え
+            document.getElementById('homeTab').classList.toggle('hidden', tab !== 'home');
+            document.getElementById('membersTab').classList.toggle('hidden', tab !== 'members');
+            
+            // ナビゲーションボタンの状態更新
+            document.getElementById('homeBtn').classList.toggle('active', tab === 'home');
+            document.getElementById('membersBtn').classList.toggle('active', tab === 'members');
+            
+            // アップロードボタンの表示制御
+            document.getElementById('addBtn').style.display = tab === 'home' ? 'flex' : 'none';
+        }
+
+        // 投稿の表示
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post-card';
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <div class="avatar">${post.avatar}</div>
+                        <div>
+                            <h3 style="font-weight: 600; color: #374151;">${post.user}</h3>
+                            <div style="display: flex; align-items: center; font-size: 0.875rem; color: #6b7280;">
+                                <svg class="icon" viewBox="0 0 24 24" style="width: 1rem; height: 1rem; margin-right: 0.25rem;">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                ${post.location} • ${post.date}
+                            </div>
+                        </div>
+                    </div>
+                    <img src="${post.image}" alt="${post.caption}" class="post-image">
+                    <div class="post-content">
+                        <p style="color: #374151; margin-bottom: 0.75rem;">${post.caption}</p>
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="likePost(${post.id})">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                                <span id="likes-${post.id}">${post.likes}</span>
+                            </button>
+                            <button class="action-btn" onclick="toggleComments(${post.id})">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                </svg>
+                                <span>${post.comments.length}</span>
+                            </button>
+                        </div>
+                        <div id="comments-${post.id}" class="comments hidden">
+                            ${post.comments.map(comment => `
+                                <div class="comment">
+                                    <span class="comment-author">${comment.user}:</span>
+                                    <span style="color: #374151;">${comment.text}</span>
+                                </div>
+                            `).join('')}
+                            <div class="comment-form">
+                                <input type="text" class="comment-input" placeholder="コメントを入力..." id="comment-input-${post.id}">
+                                <button class="comment-submit" onclick="addComment(${post.id})">送信</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(postElement);
+            });
+        }
+
+        // いいね機能
+        function likePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.likes++;
+                document.getElementById(`likes-${postId}`).textContent = post.likes;
+                updateStats();
+            }
+        }
+
+        // コメント表示切り替え
+        function toggleComments(postId) {
+            const commentsDiv = document.getElementById(`comments-${postId}`);
+            commentsDiv.classList.toggle('hidden');
+        }
+
+        // コメント追加
+        function addComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            
+            if (text) {
+                const post = posts.find(p => p.id === postId);
+                if (post) {
+                    post.comments.push({ user: 'あなた', text: text });
+                    input.value = '';
+                    renderPosts();
+                    updateStats();
+                    // コメント欄を開いたままにする
+                    setTimeout(() => {
+                        document.getElementById(`comments-${postId}`).classList.remove('hidden');
+                    }, 0);
+                }
+            }
+        }
+
+        // 統計更新
+        function updateStats() {
+            const totalLikes = posts.reduce((sum, post) => sum + post.likes, 0);
+            const totalComments = posts.reduce((sum, post) => sum + post.comments.length, 0);
+            
+            document.getElementById('photoCount').textContent = `${posts.length}枚の写真`;
+            document.getElementById('monthlyPosts').textContent = `${posts.length}枚`;
+            document.getElementById('totalLikes').textContent = totalLikes;
+            document.getElementById('totalComments').textContent = totalComments;
+        }
+
+        // アップロードモーダル表示
+        function showUpload() {
+            document.getElementById('uploadModal').classList.remove('hidden');
+        }
+
+        // アップロードモーダル非表示
+        function hideUpload() {
+            document.getElementById('uploadModal').classList.add('hidden');
+            // フォームリセット
+            document.getElementById('locationInput').value = '';
+            document.getElementById('captionInput').value = '';
+            document.getElementById('photoInput').value = '';
+            removeImage();
+        }
+
+        // 画像選択処理
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImage = e.target.result;
+                    document.getElementById('previewImg').src = selectedImage;
+                    document.getElementById('imagePreview').classList.remove('hidden');
+                    document.getElementById('fileUpload').style.display = 'none';
+                    validateForm();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 画像削除
+        function removeImage() {
+            selectedImage = null;
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('fileUpload').style.display = 'block';
+            document.getElementById('photoInput').value = '';
+            validateForm();
+        }
+
+        // フォーム検証
+        function validateForm() {
+            const location = document.getElementById('locationInput').value.trim();
+            const caption = document.getElementById('captionInput').value.trim();
+            const hasImage = selectedImage !== null;
+            
+            const isValid = location && caption && hasImage;
+            document.getElementById('submitBtn').disabled = !isValid;
+        }
+
+        // 投稿送信
+        function submitPost() {
+            const location = document.getElementById('locationInput').value.trim();
+            const caption = document.getElementById('captionInput').value.trim();
+            
+            if (location && caption && selectedImage) {
+                const newPost = {
+                    id: posts.length + 1,
+                    user: 'あなた',
+                    avatar: 'あ',
+                    location: location,
+                    date: new Date().toLocaleDateString('ja-JP'),
+                    image: selectedImage,
+                    caption: caption,
+                    likes: 0,
+                    comments: []
+                };
+                
+                posts.unshift(newPost); // 最新の投稿を最初に表示
+                renderPosts();
+                updateStats();
+                hideUpload();
+            }
+        }
+    </script>
 </body>
 </html>
