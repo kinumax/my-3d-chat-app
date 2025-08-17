@@ -325,9 +325,19 @@
             </div>
             <button class="change-name-btn hidden" id="changeNameBtn">名前を変更</button>
             <p class="description">家族だけの特別な思い出を簡単に共有</p>
-            <div class="members">
+            <div class="members" id="membersDisplay" style="display: none;">
                 <span>👥</span>
-                <span>4人のメンバー</span>
+                <span id="memberCount"></span>
+            </div>
+            <div id="addMemberContainer">
+                <input 
+                    type="text" 
+                    class="family-input" 
+                    id="memberInput"
+                    placeholder="メンバー名を入力 (例: お父さん、お母さん)"
+                    style="margin-top: 1rem;"
+                >
+                <button id="addMemberBtn" style="margin-left: 0.5rem; padding: 0.5rem 1rem; background: #ec4899; color: white; border: none; border-radius: 0.5rem; cursor: pointer;">追加</button>
             </div>
         </div>
 
@@ -352,7 +362,7 @@
                         <li>直接リンク共有</li>
                         <li>高速表示</li>
                     </ul>
-                    <button class="use-service-btn hidden">Imgur を使用</button>
+                    <button class="use-service-btn hidden" onclick="openServiceLink('https://imgur.com/', 'Imgur')">Imgur を使用</button>
                 </div>
 
                 <div class="service-card" data-service="cloudinary">
@@ -369,7 +379,7 @@
                         <li>CDN配信</li>
                         <li>無料プランあり</li>
                     </ul>
-                    <button class="use-service-btn hidden">Cloudinary を使用</button>
+                    <button class="use-service-btn hidden" onclick="openServiceLink('https://cloudinary.com/users/register/free', 'Cloudinary')">Cloudinary を使用</button>
                 </div>
 
                 <div class="service-card" data-service="github">
@@ -386,7 +396,7 @@
                         <li>カスタムドメイン</li>
                         <li>技術的制御</li>
                     </ul>
-                    <button class="use-service-btn hidden">GitHub を使用</button>
+                    <button class="use-service-btn hidden" onclick="openServiceLink('https://docs.github.com/en/pages', 'GitHub Pages')">GitHub を使用</button>
                 </div>
             </div>
         </div>
@@ -425,12 +435,17 @@
         let selectedService = '';
         let uploadedPhotos = [];
         let familyName = '';
+        let members = [];
 
         // DOM elements
         const familyTitle = document.getElementById('familyTitle');
         const familyInput = document.getElementById('familyInput');
         const familyInputContainer = document.getElementById('familyInputContainer');
         const changeNameBtn = document.getElementById('changeNameBtn');
+        const membersDisplay = document.getElementById('membersDisplay');
+        const memberCount = document.getElementById('memberCount');
+        const memberInput = document.getElementById('memberInput');
+        const addMemberBtn = document.getElementById('addMemberBtn');
         const serviceCards = document.querySelectorAll('.service-card');
         const uploadArea = document.getElementById('uploadArea');
         const fileUpload = document.getElementById('file-upload');
@@ -449,6 +464,22 @@
             updateFamilyTitle();
         });
 
+        // Member management
+        addMemberBtn.addEventListener('click', function() {
+            const memberName = memberInput.value.trim();
+            if (memberName && !members.includes(memberName)) {
+                members.push(memberName);
+                memberInput.value = '';
+                updateMembersDisplay();
+            }
+        });
+
+        memberInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addMemberBtn.click();
+            }
+        });
+
         function updateFamilyTitle() {
             if (familyName) {
                 familyTitle.textContent = `💖 ${familyName}のアルバム`;
@@ -458,6 +489,15 @@
                 familyTitle.textContent = '💖 ファミリーアルバム';
                 familyInputContainer.classList.remove('hidden');
                 changeNameBtn.classList.add('hidden');
+            }
+        }
+
+        function updateMembersDisplay() {
+            if (members.length > 0) {
+                membersDisplay.style.display = 'flex';
+                memberCount.textContent = `${members.length}人のメンバー: ${members.join(', ')}`;
+            } else {
+                membersDisplay.style.display = 'none';
             }
         }
 
@@ -554,6 +594,17 @@
                     `;
                     photosGrid.appendChild(photoCard);
                 });
+            }
+        }
+
+        // Service link handling
+        function openServiceLink(url, serviceName) {
+            // Show confirmation dialog
+            const confirmed = confirm(`${serviceName}のサイトに移動します。\n\nこのページに戻るには、ブラウザの「戻る」ボタンを使用してください。\n\n続行しますか？`);
+            
+            if (confirmed) {
+                // Open in same tab so user can use back button to return
+                window.location.href = url;
             }
         }
     </script>
