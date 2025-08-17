@@ -29,6 +29,8 @@
             --google-green: #34a853;
             --google-yellow: #fbbc05;
             --google-red: #ea4335;
+            --imgur-green: #1bb76e;
+            --cloudinary-blue: #3448c5;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -153,8 +155,22 @@
             font-weight: 500;
         }
 
-        /* Google Photos Integration Styles */
-        .google-photos-section {
+        .family-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Photo Sharing Services */
+        .photo-services {
             background: var(--bg-secondary);
             border-radius: 1rem;
             box-shadow: var(--shadow-md);
@@ -164,209 +180,305 @@
             transition: all 0.3s ease;
         }
 
-        .google-photos-section:hover {
+        .photo-services:hover {
             box-shadow: var(--shadow-lg);
             transform: translateY(-2px);
         }
 
-        .google-photos-header {
+        .service-option {
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-tertiary);
+        }
+
+        .service-option:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .service-option.active {
+            border-color: var(--accent-primary);
+            background: rgba(236, 72, 153, 0.05);
+        }
+
+        .service-header {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.75rem;
         }
 
-        .google-logo {
+        .service-logo {
             width: 2.5rem;
             height: 2.5rem;
-            background: linear-gradient(45deg, var(--google-blue), var(--google-green), var(--google-yellow), var(--google-red));
             border-radius: 0.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
-        .google-connect-btn {
-            background: var(--google-blue);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            width: 100%;
-            justify-content: center;
-            box-shadow: var(--shadow-md);
-        }
+        .google-logo { background: linear-gradient(45deg, var(--google-blue), var(--google-green)); }
+        .imgur-logo { background: var(--imgur-green); }
+        .cloudinary-logo { background: var(--cloudinary-blue); }
+        .github-logo { background: #24292e; }
 
-        .google-connect-btn:hover {
-            background: #3367d6;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .google-album-link {
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .google-album-link input {
-            width: 100%;
-            border: none;
-            background: transparent;
-            color: var(--text-primary);
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .create-album-btn {
-            background: var(--google-green);
-            color: white;
-            border: none;
-            padding: 0.875rem 1.5rem;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            margin-right: 0.75rem;
-        }
-
-        .create-album-btn:hover {
-            background: #2d7d32;
-            transform: translateY(-1px);
-        }
-
-        .album-item {
-            background: var(--bg-tertiary);
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border-light);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .album-item:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-            border-color: var(--accent-primary);
-        }
-
-        .album-title {
+        .service-title {
             font-weight: 700;
-            color: var(--text-primary);
+            font-size: 1.1rem;
             margin-bottom: 0.25rem;
         }
 
-        .album-meta {
+        .service-description {
             font-size: 0.875rem;
             color: var(--text-secondary);
             margin-bottom: 1rem;
         }
 
-        .album-actions {
-            display: flex;
-            gap: 0.5rem;
+        .service-features {
+            list-style: none;
+            padding: 0;
             margin-bottom: 1rem;
         }
 
-        .album-action-btn {
-            background: rgba(66, 133, 244, 0.1);
+        .service-features li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding-left: 1.25rem;
+            position: relative;
+            margin-bottom: 0.25rem;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--google-green);
+            font-weight: 700;
+        }
+
+        .service-button {
+            width: 100%;
+            padding: 0.875rem;
             border: none;
-            padding: 0.5rem 1rem;
             border-radius: 0.5rem;
-            color: var(--google-blue);
             cursor: pointer;
-            font-size: 0.875rem;
             font-weight: 600;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
+            color: white;
         }
 
-        .album-action-btn:hover {
-            background: rgba(66, 133, 244, 0.2);
+        .google-btn { background: var(--google-blue); }
+        .imgur-btn { background: var(--imgur-green); }
+        .cloudinary-btn { background: var(--cloudinary-blue); }
+        .github-btn { background: #24292e; }
+
+        .service-button:hover {
             transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
-        .add-comment-form {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1rem;
+        /* Upload Section */
+        .upload-section {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border: 1px solid var(--border-light);
         }
 
-        .comment-input {
-            flex: 1;
+        .file-upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 0.75rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: var(--bg-tertiary);
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--accent-primary);
+            background: rgba(236, 72, 153, 0.05);
+        }
+
+        .file-upload-area.dragover {
+            border-color: var(--accent-primary);
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        .upload-icon {
+            width: 3rem;
+            height: 3rem;
+            margin: 0 auto 1rem;
+            opacity: 0.6;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .image-preview {
+            position: relative;
+            margin-top: 1.5rem;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            max-width: 100%;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 2rem;
+            height: 2rem;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .upload-form {
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--border-color);
             border-radius: 0.5rem;
             outline: none;
             background: var(--bg-secondary);
             color: var(--text-primary);
-            font-size: 0.9rem;
         }
 
-        .comment-submit-btn {
-            background: var(--accent-primary);
+        .form-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
+        }
+
+        .upload-btn {
+            width: 100%;
+            background: var(--gradient);
             color: white;
             border: none;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
+            padding: 1rem;
+            border-radius: 0.75rem;
             font-weight: 600;
-            font-size: 0.9rem;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .comment-submit-btn:hover {
-            background: var(--accent-hover);
+        .upload-btn:hover {
+            background: var(--gradient-hover);
             transform: translateY(-1px);
         }
 
-        .google-photos-info {
-            background: rgba(66, 133, 244, 0.1);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            border: 1px solid rgba(66, 133, 244, 0.2);
+        .upload-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .google-photos-info h4 {
-            color: var(--google-blue);
-            font-weight: 700;
+        /* Shared Photos Gallery */
+        .photos-gallery {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .photo-item {
+            background: var(--bg-tertiary);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .photo-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .photo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 0.75rem;
         }
 
-        .google-photos-info ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .google-photos-info li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
-            position: relative;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .google-photos-info li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--google-green);
+        .photo-title {
             font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .photo-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .photo-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .photo-action-btn {
+            padding: 0.375rem 0.75rem;
+            background: rgba(236, 72, 153, 0.1);
+            border: none;
+            border-radius: 0.375rem;
+            color: var(--accent-primary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .photo-action-btn:hover {
+            background: rgba(236, 72, 153, 0.2);
+        }
+
+        .photo-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .bottom-nav {
@@ -420,6 +532,25 @@
             fill: currentColor;
         }
 
+        .status-message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(52, 168, 83, 0.1);
+            color: var(--google-green);
+            border: 1px solid rgba(52, 168, 83, 0.2);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
         @media (max-width: 480px) {
             .content {
                 padding: 1rem 0.75rem;
@@ -432,10 +563,9 @@
         <header class="header">
             <h1>📱 FamiPic</h1>
             <div class="header-actions">
-                <button class="header-btn" onclick="showGooglePhotos()" title="Google フォト">
+                <button class="header-btn" onclick="showUploadSection()" title="写真をアップロード">
                     <svg class="icon" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="m12 1 3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/>
+                        <path d="M12 4v16m8-8H4"/>
                     </svg>
                 </button>
             </div>
@@ -445,50 +575,127 @@
             <div id="homeTab">
                 <div class="family-header">
                     <h2 id="groupTitle">💖 田中家のアルバム</h2>
-                    <p>家族だけの特別な思い出をGoogle フォトで共有</p>
-                </div>
-
-                <!-- Google Photos Integration Section -->
-                <div class="google-photos-section">
-                    <div class="google-photos-header">
-                        <div class="google-logo">G</div>
-                        <div>
-                            <h3 style="font-weight: 700; margin-bottom: 0.25rem;">Google フォト連携</h3>
-                            <p style="font-size: 0.875rem; color: var(--text-secondary);">家族でアルバムを共有・編集</p>
+                    <p>家族だけの特別な思い出を簡単に共有</p>
+                    <div class="family-stats">
+                        <div class="stat">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                            </svg>
+                            <span id="memberCount">4人のメンバー</span>
                         </div>
-                    </div>
-
-                    <div id="googlePhotosContent">
-                        <button class="google-connect-btn" onclick="connectGooglePhotos()">
+                        <div class="stat">
                             <svg class="icon" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="3"/>
                                 <path d="m12 1 3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/>
                             </svg>
-                            Google フォトと連携する
-                        </button>
+                            <span id="photoCount">写真を共有しよう</span>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="google-album-link">
-                            <input type="text" id="albumLinkInput" placeholder="Google フォトのアルバムリンクを貼り付け..." style="margin-bottom: 1rem;">
+                <!-- Photo Services Selection -->
+                <div class="photo-services">
+                    <h3 style="font-weight: 700; margin-bottom: 1.5rem;">📸 写真共有サービスを選択</h3>
+                    
+                    <div class="service-option" onclick="selectService('imgur')">
+                        <div class="service-header">
+                            <div class="service-logo imgur-logo">IMG</div>
                             <div>
-                                <button class="create-album-btn" onclick="createNewAlbum()">新しいアルバムを作成</button>
-                                <button class="create-album-btn" onclick="addExistingAlbum()" style="background: var(--accent-primary);">既存のアルバムを追加</button>
+                                <div class="service-title">Imgur (推奨)</div>
+                                <div class="service-description">無料で簡単、アカウント不要で即座に共有</div>
                             </div>
                         </div>
+                        <ul class="service-features">
+                            <li>アカウント登録不要</li>
+                            <li>無制限アップロード</li>
+                            <li>直接リンク共有</li>
+                            <li>高速表示</li>
+                        </ul>
+                        <button class="service-button imgur-btn">Imgur を使用</button>
+                    </div>
 
-                        <div id="albumsList" class="shared-albums-list">
-                            <!-- アルバム一覧がここに表示される -->
+                    <div class="service-option" onclick="selectService('cloudinary')">
+                        <div class="service-header">
+                            <div class="service-logo cloudinary-logo">CLD</div>
+                            <div>
+                                <div class="service-title">Cloudinary</div>
+                                <div class="service-description">プロ品質の画像管理・変換</div>
+                            </div>
                         </div>
+                        <ul class="service-features">
+                            <li>自動画像最適化</li>
+                            <li>リサイズ・圧縮</li>
+                            <li>CDN配信</li>
+                            <li>無料プランあり</li>
+                        </ul>
+                        <button class="service-button cloudinary-btn">Cloudinary を使用</button>
+                    </div>
 
-                        <div class="google-photos-info">
-                            <h4>💡 Google フォト連携の利点</h4>
-                            <ul>
-                                <li>家族全員が写真をアップロード・編集できる</li>
-                                <li>高画質の写真を無制限で共有</li>
-                                <li>リアルタイムでコメントを追加</li>
-                                <li>自動バックアップで写真が失われない</li>
-                                <li>顔認識で家族の写真を自動整理</li>
-                            </ul>
+                    <div class="service-option" onclick="selectService('github')">
+                        <div class="service-header">
+                            <div class="service-logo github-logo">GH</div>
+                            <div>
+                                <div class="service-title">GitHub Pages</div>
+                                <div class="service-description">開発者向け、Git統合</div>
+                            </div>
                         </div>
+                        <ul class="service-features">
+                            <li>バージョン管理</li>
+                            <li>無料ホスティング</li>
+                            <li>カスタムドメイン</li>
+                            <li>技術的制御</li>
+                        </ul>
+                        <button class="service-button github-btn">GitHub を使用</button>
+                    </div>
+                </div>
+
+                <!-- Upload Section -->
+                <div class="upload-section" id="uploadSection">
+                    <h3 style="font-weight: 700; margin-bottom: 1.5rem;">📤 写真をアップロード</h3>
+                    
+                    <div id="statusMessage" class="hidden"></div>
+                    
+                    <div class="file-upload-area" onclick="document.getElementById('fileInput').click()" 
+                         ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7,10 12,15 17,10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">写真をドロップまたはクリックして選択</p>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary);">JPG、PNG、GIF対応 (最大10MB)</p>
+                    </div>
+                    
+                    <input type="file" id="fileInput" class="file-input" accept="image/*" onchange="handleFileSelect(event)">
+                    
+                    <div id="imagePreview" class="image-preview hidden">
+                        <img id="previewImg" class="preview-image" alt="プレビュー">
+                        <button class="remove-image" onclick="removeImage()">×</button>
+                    </div>
+
+                    <div class="upload-form" id="uploadForm" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">📍 場所・イベント</label>
+                            <input type="text" class="form-input" id="locationInput" placeholder="例: 家族旅行 - 海辺、誕生日パーティー">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">💭 コメント</label>
+                            <input type="text" class="form-input" id="commentInput" placeholder="この写真について一言...">
+                        </div>
+                        <button class="upload-btn" id="uploadBtn" onclick="uploadPhoto()" disabled>
+                            📤 写真をシェア
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Shared Photos Gallery -->
+                <div class="photos-gallery">
+                    <h3 style="font-weight: 700; margin-bottom: 1.5rem;">🖼️ 共有された写真</h3>
+                    <div id="photosContainer">
+                        <p style="text-align: center; color: var(--text-muted); font-style: italic; padding: 2rem;">
+                            まだ写真がありません。<br>最初の思い出をシェアしてみましょう！
+                        </p>
                     </div>
                 </div>
             </div>
@@ -517,187 +724,389 @@
             currentUser: 'あなた',
             groupId: 'group_' + Date.now(),
             groupName: '田中家のアルバム',
-            googlePhotosConnected: false,
-            albums: []
+            selectedService: 'imgur',
+            photos: [],
+            uploadedFile: null
         };
 
-        // Google フォト連携のシミュレーション
-        function connectGooglePhotos() {
-            // 実際の実装では Google Photos API を使用
-            setTimeout(() => {
-                appState.googlePhotosConnected = true;
-                alert('✅ Google フォトに接続しました！\n新しいアルバムを作成するか、既存のアルバムを共有できます。');
-                updateGooglePhotosUI();
-            }, 1000);
+        // ローカルストレージからデータを読み込み
+        function loadAppState() {
+            const savedState = JSON.parse(localStorage.getItem('famipic_state') || '{}');
+            appState = { ...appState, ...savedState };
+            if (appState.photos) {
+                appState.photos.forEach(photo => {
+                    photo.timestamp = new Date(photo.timestamp);
+                });
+    </script>
+</body>
+</html>
+            }
         }
 
-        function createNewAlbum() {
-            const albumName = prompt('新しいアルバム名を入力してください:', '家族の思い出 - ' + new Date().getFullYear());
-            if (albumName) {
-                const newAlbum = {
+        // ローカルストレージにデータを保存
+        function saveAppState() {
+            localStorage.setItem('famipic_state', JSON.stringify(appState));
+        }
+
+        // サービス選択
+        function selectService(service) {
+            appState.selectedService = service;
+            
+            // すべてのservice-optionからactiveクラスを削除
+            document.querySelectorAll('.service-option').forEach(el => el.classList.remove('active'));
+            
+            // 選択されたサービスにactiveクラスを追加
+            event.currentTarget.classList.add('active');
+            
+            showStatusMessage(`${getServiceName(service)} を選択しました！`, 'success');
+            
+            saveAppState();
+        }
+
+        function getServiceName(service) {
+            const names = {
+                'imgur': 'Imgur',
+                'cloudinary': 'Cloudinary', 
+                'github': 'GitHub Pages'
+            };
+            return names[service] || service;
+        }
+
+        // ファイル選択・ドラッグ&ドロップ処理
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+            
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                processFile(files[0]);
+            }
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.currentTarget.classList.remove('dragover');
+        }
+
+        function processFile(file) {
+            if (!file.type.startsWith('image/')) {
+                showStatusMessage('画像ファイルを選択してください', 'error');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) { // 10MB
+                showStatusMessage('ファイルサイズは10MB以下にしてください', 'error');
+                return;
+            }
+
+            appState.uploadedFile = file;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('imagePreview').classList.remove('hidden');
+                document.getElementById('uploadForm').style.display = 'block';
+                document.getElementById('uploadBtn').disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeImage() {
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('uploadForm').style.display = 'none';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('uploadBtn').disabled = true;
+            appState.uploadedFile = null;
+        }
+
+        // 写真アップロード（実際にImgurにアップロード）
+        async function uploadPhoto() {
+            if (!appState.uploadedFile) {
+                showStatusMessage('写真を選択してください', 'error');
+                return;
+            }
+
+            const location = document.getElementById('locationInput').value.trim() || '特別な瞬間';
+            const comment = document.getElementById('commentInput').value.trim() || '';
+
+            document.getElementById('uploadBtn').textContent = '📤 アップロード中...';
+            document.getElementById('uploadBtn').disabled = true;
+
+            try {
+                let imageUrl = '';
+
+                if (appState.selectedService === 'imgur') {
+                    imageUrl = await uploadToImgur(appState.uploadedFile);
+                } else {
+                    // 他のサービスの場合は、一旦base64でローカル保存
+                    imageUrl = await fileToBase64(appState.uploadedFile);
+                    showStatusMessage(`${getServiceName(appState.selectedService)} への実際のアップロードは開発中です。現在はローカルに保存されています。`, 'success');
+                }
+
+                // 投稿データを作成
+                const newPhoto = {
                     id: Date.now(),
-                    name: albumName,
-                    link: `https://photos.app.goo.gl/example${Date.now()}`,
-                    photoCount: 0,
-                    contributorCount: 1,
-                    comments: [],
-                    createdBy: appState.currentUser,
-                    createdAt: new Date()
+                    author: appState.currentUser,
+                    location: location,
+                    comment: comment,
+                    imageUrl: imageUrl,
+                    timestamp: new Date(),
+                    service: appState.selectedService,
+                    likes: 0,
+                    comments: []
                 };
+
+                appState.photos.unshift(newPhoto);
+                saveAppState();
+                renderPhotos();
+                updateStats();
+
+                // フォームをリセット
+                removeImage();
+                document.getElementById('locationInput').value = '';
+                document.getElementById('commentInput').value = '';
                 
-                appState.albums.push(newAlbum);
-                renderAlbums();
+                showStatusMessage('写真をシェアしました！ 🎉', 'success');
                 
-                // シミュレート：Google フォトでアルバム作成
+                // 自動スクロール
                 setTimeout(() => {
-                    alert(`🎉 "${albumName}" アルバムを作成しました！\n\n共有リンク:\n${newAlbum.link}\n\nこのリンクを家族に送って共同編集を有効にしてください。`);
+                    document.getElementById('photosContainer').scrollIntoView({ behavior: 'smooth' });
                 }, 500);
+
+            } catch (error) {
+                console.error('Upload failed:', error);
+                showStatusMessage('アップロードに失敗しました。もう一度お試しください。', 'error');
             }
+
+            document.getElementById('uploadBtn').textContent = '📤 写真をシェア';
+            document.getElementById('uploadBtn').disabled = false;
         }
 
-        function addExistingAlbum() {
-            const albumLink = document.getElementById('albumLinkInput').value.trim();
-            if (!albumLink) {
-                alert('Google フォトのアルバムリンクを入力してください。');
+        // Imgur API を使用した実際のアップロード
+        async function uploadToImgur(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const response = await fetch('https://api.imgur.com/3/image', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Client-ID 546c25a59c58ad7' // 公開用のClient ID
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Imgur upload failed');
+            }
+
+            const data = await response.json();
+            return data.data.link;
+        }
+
+        // ファイルをBase64に変換（ローカル保存用）
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ステータスメッセージ表示
+        function showStatusMessage(message, type = 'success') {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message status-${type}`;
+            statusDiv.classList.remove('hidden');
+            
+            setTimeout(() => {
+                statusDiv.classList.add('hidden');
+            }, 5000);
+        }
+
+        // 写真ギャラリーの表示
+        function renderPhotos() {
+            const container = document.getElementById('photosContainer');
+            
+            if (appState.photos.length === 0) {
+                container.innerHTML = `
+                    <p style="text-align: center; color: var(--text-muted); font-style: italic; padding: 2rem;">
+                        まだ写真がありません。<br>最初の思い出をシェアしてみましょう！
+                    </p>
+                `;
                 return;
             }
 
-            if (!albumLink.includes('photos.app.goo.gl') && !albumLink.includes('photos.google.com')) {
-                alert('正しいGoogle フォトのリンクを入力してください。');
-                return;
-            }
-
-            const albumName = prompt('アルバム名を入力してください:', 'インポートされたアルバム');
-            if (albumName) {
-                const importedAlbum = {
-                    id: Date.now(),
-                    name: albumName,
-                    link: albumLink,
-                    photoCount: Math.floor(Math.random() * 50) + 10,
-                    contributorCount: Math.floor(Math.random() * 5) + 2,
-                    comments: [],
-                    createdBy: '外部ユーザー',
-                    createdAt: new Date()
-                };
-                
-                appState.albums.push(importedAlbum);
-                document.getElementById('albumLinkInput').value = '';
-                renderAlbums();
-                
-                alert(`✅ "${albumName}" を追加しました！\n家族全員がこのアルバムにアクセスできます。`);
-            }
-        }
-
-        function renderAlbums() {
-            const container = document.getElementById('albumsList');
             container.innerHTML = '';
-
-            if (appState.albums.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-muted); font-style: italic; padding: 2rem;">まだアルバムがありません。新しいアルバムを作成してみましょう！</p>';
-                return;
-            }
-
-            appState.albums.forEach(album => {
-                const albumElement = document.createElement('div');
-                albumElement.className = 'album-item';
-                albumElement.innerHTML = `
-                    <div class="album-title">${album.name}</div>
-                    <div class="album-meta">${album.photoCount}枚の写真 • ${album.contributorCount}人が参加中</div>
-                    <div class="album-actions">
-                        <button class="album-action-btn" onclick="openAlbum('${album.link}')">アルバムを開く</button>
-                        <button class="album-action-btn" onclick="copyAlbumLink('${album.link}')">リンクをコピー</button>
-                        <button class="album-action-btn" onclick="showAlbumComments(${album.id})">コメント (${album.comments.length})</button>
-                    </div>
-                    <div id="comments-${album.id}" class="hidden">
-                        <div class="add-comment-form">
-                            <input type="text" class="comment-input" placeholder="アルバムにコメントを追加..." onkeypress="handleAlbumComment(event, ${album.id})">
-                            <button class="comment-submit-btn" onclick="addAlbumComment(${album.id})">投稿</button>
+            
+            appState.photos.forEach(photo => {
+                const photoElement = document.createElement('div');
+                photoElement.className = 'photo-item';
+                photoElement.innerHTML = `
+                    <div class="photo-header">
+                        <div>
+                            <div class="photo-title">${photo.location}</div>
+                            <div class="photo-meta">${photo.author} • ${formatTimestamp(photo.timestamp)} • ${getServiceName(photo.service)}</div>
                         </div>
-                        <div id="album-comments-${album.id}">
-                            ${album.comments.map(comment => `
-                                <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 0.5rem; margin-top: 0.5rem; font-size: 0.875rem;">
-                                    <strong style="color: var(--accent-primary);">${comment.author}:</strong> ${comment.text}
-                                </div>
-                            `).join('')}
+                        <div class="photo-actions">
+                            <button class="photo-action-btn" onclick="likePhoto(${photo.id})">
+                                ❤️ ${photo.likes}
+                            </button>
+                            <button class="photo-action-btn" onclick="sharePhoto('${photo.imageUrl}')">
+                                📤 シェア
+                            </button>
+                            <button class="photo-action-btn" onclick="copyPhotoLink('${photo.imageUrl}')">
+                                🔗 リンク
+                            </button>
+                        </div>
+                    </div>
+                    <img src="${photo.imageUrl}" alt="${photo.location}" class="photo-thumbnail" onclick="viewFullImage('${photo.imageUrl}')">
+                    ${photo.comment ? `<p style="margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.6;">${photo.comment}</p>` : ''}
+                    <div style="border-top: 1px solid var(--border-light); padding-top: 0.75rem; margin-top: 0.75rem;">
+                        <div style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">💬 コメント (${photo.comments.length})</div>
+                        ${photo.comments.map(comment => `
+                            <div style="background: var(--bg-secondary); padding: 0.5rem; border-radius: 0.375rem; margin-bottom: 0.5rem; font-size: 0.85rem;">
+                                <strong style="color: var(--accent-primary);">${comment.author}:</strong> ${comment.text}
+                            </div>
+                        `).join('')}
+                        <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+                            <input type="text" placeholder="コメントを追加..." style="flex: 1; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.375rem; font-size: 0.85rem;" onkeypress="handlePhotoComment(event, ${photo.id})">
+                            <button onclick="addPhotoComment(${photo.id})" style="padding: 0.5rem 0.75rem; background: var(--accent-primary); color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer;">投稿</button>
                         </div>
                     </div>
                 `;
-                container.appendChild(albumElement);
+                container.appendChild(photoElement);
             });
         }
 
-        function openAlbum(link) {
-            window.open(link, '_blank');
+        // タイムスタンプの整形
+        function formatTimestamp(date) {
+            const now = new Date();
+            const diffMinutes = Math.floor((now - date) / (1000 * 60));
+            const diffHours = Math.floor(diffMinutes / 60);
+            const diffDays = Math.floor(diffHours / 24);
+
+            if (diffMinutes < 1) return 'たった今';
+            if (diffMinutes < 60) return `${diffMinutes}分前`;
+            if (diffHours < 24) return `${diffHours}時間前`;
+            if (diffDays < 7) return `${diffDays}日前`;
+            return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         }
 
-        function copyAlbumLink(link) {
-            navigator.clipboard.writeText(link).then(() => {
-                alert('📋 アルバムリンクをコピーしました！\n家族に送って共同編集を始めましょう。');
-            });
+        // 写真にいいね
+        function likePhoto(photoId) {
+            const photo = appState.photos.find(p => p.id === photoId);
+            if (photo) {
+                photo.likes++;
+                saveAppState();
+                renderPhotos();
+                updateStats();
+            }
         }
 
-        function showAlbumComments(albumId) {
-            const commentsDiv = document.getElementById(`comments-${albumId}`);
-            commentsDiv.classList.toggle('hidden');
-        }
+        // 写真にコメント追加
+        function addPhotoComment(photoId) {
+            const photo = appState.photos.find(p => p.id === photoId);
+            const input = event.target.previousElementSibling;
+            const commentText = input.value.trim();
 
-        function addAlbumComment(albumId) {
-            const album = appState.albums.find(a => a.id === albumId);
-            const input = document.querySelector(`#comments-${albumId} .comment-input`);
-            const comment = input.value.trim();
-
-            if (comment && album) {
-                album.comments.push({
+            if (commentText && photo) {
+                photo.comments.push({
                     author: appState.currentUser,
-                    text: comment,
+                    text: commentText,
                     timestamp: new Date()
                 });
                 input.value = '';
-                renderAlbums();
+                saveAppState();
+                renderPhotos();
+                updateStats();
             }
         }
 
-        function handleAlbumComment(event, albumId) {
+        function handlePhotoComment(event, photoId) {
             if (event.key === 'Enter') {
-                addAlbumComment(albumId);
+                addPhotoComment(photoId);
             }
         }
 
-        function showGooglePhotos() {
-            alert('🌟 Google フォト機能\n\n• 家族全員で写真をアップロード\n• リアルタイムコメント\n• 自動バックアップ\n• 高画質共有\n\n下のボタンから連携を開始してください！');
+        // 写真のシェア
+        function sharePhoto(imageUrl) {
+            if (navigator.share) {
+                navigator.share({
+                    title: '家族の写真',
+                    text: 'FamiPicで共有された写真です',
+                    url: imageUrl
+                });
+            } else {
+                copyPhotoLink(imageUrl);
+            }
         }
 
-        function updateGooglePhotosUI() {
-            if (appState.googlePhotosConnected) {
-                document.querySelector('.google-connect-btn').innerHTML = '✅ Google フォトに接続済み';
-                document.querySelector('.google-connect-btn').style.background = 'var(--google-green)';
-                document.querySelector('.google-connect-btn').onclick = null;
-            }
+        // 写真リンクのコピー
+        function copyPhotoLink(imageUrl) {
+            navigator.clipboard.writeText(imageUrl).then(() => {
+                showStatusMessage('写真のリンクをコピーしました！', 'success');
+            });
+        }
+
+        // フルサイズ画像の表示
+        function viewFullImage(imageUrl) {
+            window.open(imageUrl, '_blank');
+        }
+
+        // 統計の更新
+        function updateStats() {
+            document.getElementById('photoCount').textContent = `${appState.photos.length}枚の写真`;
+        }
+
+        // アップロードセクションの表示
+        function showUploadSection() {
+            document.getElementById('uploadSection').scrollIntoView({ behavior: 'smooth' });
         }
 
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
-            renderAlbums();
+            loadAppState();
+            renderPhotos();
+            updateStats();
             
-            // デモ用のサンプルアルバムを追加
-            setTimeout(() => {
-                const sampleAlbum = {
-                    id: 1,
-                    name: '夏休みの思い出 2025',
-                    link: 'https://photos.app.goo.gl/example123',
-                    photoCount: 24,
-                    contributorCount: 4,
-                    comments: [
-                        { author: 'お母さん', text: '海辺での写真、とても素敵！', timestamp: new Date() },
-                        { author: '娘', text: 'また来年も行きたいな〜 🏖️', timestamp: new Date() }
-                    ],
-                    createdBy: 'お父さん',
-                    createdAt: new Date('2025-07-15')
-                };
-                appState.albums.push(sampleAlbum);
-                renderAlbums();
-            }, 1000);
+            // デフォルトでImgurを選択
+            document.querySelector('.service-option').classList.add('active');
+            
+            // サンプル写真を追加（初回のみ）
+            if (appState.photos.length === 0) {
+                setTimeout(() => {
+                    const samplePhoto = {
+                        id: Date.now(),
+                        author: 'お母さん',
+                        location: '家族でお出かけ',
+                        comment: 'みんなでピクニック！天気も良くて最高でした ☀️',
+                        imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjODdDRUVCIi8+CjxjaXJjbGUgY3g9IjMwMCIgY3k9IjgwIiByPSI0MCIgZmlsbD0iI0ZGRDcwMCIvPgo8cG9seWdvbiBwb2ludHM9IjgwLDE4MCAyMDAsMTIwIDMyMCwxNjAgNDAwLDIwMCA0MDAsMzAwIDgwLDMwMCIgZmlsbD0iIzM0QTg1MyIvPgo8cG9seWdvbiBwb2ludHM9IjAsNDAgMTAwLDgwIDIwMCw2MCAzMDAsOTAgNDAwLDUwIDQwMCwzMDAgMCwzMDAiIGZpbGw9IiM2NkJCNkEiLz4KPHRleHQgeD0iMjAwIiB5PSIyNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzMzMzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+🏞️ 家族でピクニック</dGV4dD4KPC9zdmc+',
+                        timestamp: new Date(),
+                        service: 'imgur',
+                        likes: 3,
+                        comments: [
+                            { author: 'お父さん', text: 'いい写真だね！', timestamp: new Date() },
+                            { author: '娘', text: 'また行きたい〜！', timestamp: new Date() }
+                        ]
+                    };
+                    
+                    appState.photos.push(samplePhoto);
+                    saveAppState();
+                    renderPhotos();
+                    updateStats();
+                }, 2000);
+            }
         });
-    </script>
-</body>
-</html>
