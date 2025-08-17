@@ -1,247 +1,561 @@
-import React, { useState, useCallback } from 'react';
-import { Camera, Upload, Users, Heart, Github, Cloud, ImageIcon } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamiPic - 家族写真共有</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-const FamiPicApp = () => {
-  const [selectedService, setSelectedService] = useState('');
-  const [uploadedPhotos, setUploadedPhotos] = useState([]);
-  const [dragActive, setDragActive] = useState(false);
-  const [familyName, setFamilyName] = useState('');
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #f3e8ff 100%);
+            min-height: 100vh;
+            color: #374151;
+        }
 
-  const services = [
-    {
-      id: 'imgur',
-      name: 'Imgur',
-      label: '推奨',
-      icon: <ImageIcon className="w-6 h-6" />,
-      description: '無料で簡単、アカウント不要で即座に共有',
-      features: [
-        'アカウント登録不要',
-        '無制限アップロード', 
-        '直接リンク共有',
-        '高速表示'
-      ],
-      color: 'bg-green-500'
-    },
-    {
-      id: 'cloudinary',
-      name: 'Cloudinary', 
-      label: 'CLD',
-      icon: <Cloud className="w-6 h-6" />,
-      description: 'プロ品質の画像管理・変換',
-      features: [
-        '自動画像最適化',
-        'リサイズ・圧縮',
-        'CDN配信',
-        '無料プランあり'
-      ],
-      color: 'bg-blue-500'
-    },
-    {
-      id: 'github',
-      name: 'GitHub Pages',
-      label: 'GH', 
-      icon: <Github className="w-6 h-6" />,
-      description: '開発者向け、Git統合',
-      features: [
-        'バージョン管理',
-        '無料ホスティング',
-        'カスタムドメイン',
-        '技術的制御'
-      ],
-      color: 'bg-purple-500'
-    }
-  ];
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
-  const handleDrag = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
-    } else if (e.type === 'dragleave') {
-      setDragActive(false);
-    }
-  }, []);
+        .header {
+            text-center;
+            margin-bottom: 3rem;
+        }
 
-  const handleDrop = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
+        .app-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
 
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFiles(e.dataTransfer.files);
-    }
-  }, []);
+        .app-title h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    if (e.target.files && e.target.files[0]) {
-      handleFiles(e.target.files);
-    }
-  };
+        .heart-icon {
+            color: #ec4899;
+            font-size: 2rem;
+        }
 
-  const handleFiles = (files) => {
-    Array.from(files).forEach(file => {
-      if (file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const newPhoto = {
-            id: Date.now() + Math.random(),
-            src: e.target.result,
-            name: file.name,
-            uploadDate: new Date().toLocaleDateString('ja-JP')
-          };
-          setUploadedPhotos(prev => [...prev, newPhoto]);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  };
+        .family-title {
+            font-size: 1.25rem;
+            color: #ec4899;
+            margin-bottom: 1rem;
+        }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
-      <div className="max-w-4xl mx-auto p-6">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-pink-500" />
-            <h1 className="text-3xl font-bold text-gray-800">FamiPic</h1>
-          </div>
-          <h2 className="text-xl text-pink-600 mb-2">
-            💖 {familyName ? `${familyName}のアルバム` : 'ファミリーアルバム'}
-          </h2>
-          {!familyName && (
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="家族名を入力してください (例: 田中家)"
-                value={familyName}
-                onChange={(e) => setFamilyName(e.target.value)}
-                className="px-4 py-2 border border-pink-300 rounded-lg focus:outline-none focus:border-pink-500 text-center"
-              />
+        .family-input {
+            padding: 0.75rem 1rem;
+            border: 2px solid #f9a8d4;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 1rem;
+        }
+
+        .family-input:focus {
+            border-color: #ec4899;
+        }
+
+        .change-name-btn {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .change-name-btn:hover {
+            color: #ec4899;
+        }
+
+        .description {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .members {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .service-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .service-card:hover {
+            border-color: #f9a8d4;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card.selected {
+            border-color: #f472b6;
+            background: #fdf2f8;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .service-icon.imgur { background: #22c55e; }
+        .service-icon.cloudinary { background: #3b82f6; }
+        .service-icon.github { background: #8b5cf6; }
+
+        .service-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .recommended {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        .service-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .service-features {
+            list-style: none;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .service-features li {
+            margin-bottom: 0.25rem;
+        }
+
+        .service-features li:before {
+            content: "• ";
+            color: #ec4899;
+        }
+
+        .use-service-btn {
+            width: 100%;
+            margin-top: 1rem;
+            background: #ec4899;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .use-service-btn:hover {
+            background: #db2777;
+        }
+
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.75rem;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.2s;
+            margin-bottom: 3rem;
+            background: white;
+        }
+
+        .upload-area:hover,
+        .upload-area.drag-active {
+            border-color: #f472b6;
+            background: #fdf2f8;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        #file-upload {
+            display: none;
+        }
+
+        .upload-label {
+            cursor: pointer;
+        }
+
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .photo-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .photo-image {
+            width: 100%;
+            height: 8rem;
+            object-fit: cover;
+        }
+
+        .photo-info {
+            padding: 0.75rem;
+        }
+
+        .photo-name {
+            font-size: 0.75rem;
+            color: #6b7280;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 0.25rem;
+        }
+
+        .photo-date {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #6b7280;
+            padding: 3rem;
+            font-style: italic;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="app-title">
+                <span class="heart-icon">💖</span>
+                <h1>FamiPic</h1>
             </div>
-          )}
-          {familyName && (
-            <button
-              onClick={() => setFamilyName('')}
-              className="text-xs text-gray-500 hover:text-pink-500 mb-2"
-            >
-              名前を変更
-            </button>
-          )}
-          <p className="text-gray-600 mb-4">家族だけの特別な思い出を簡単に共有</p>
-          <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-            <Users className="w-4 h-4" />
-            <span>4人のメンバー</span>
-          </div>
-        </div>
-
-        {/* Service Selection */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4 text-center">📸 写真共有サービスを選択</h3>
-          <div className="grid md:grid-cols-3 gap-4">
-            {services.map((service) => (
-              <div 
-                key={service.id}
-                className={`border-2 rounded-lg p-4 cursor-pointer transition-all duration-200 ${
-                  selectedService === service.id 
-                    ? 'border-pink-400 bg-pink-50 shadow-lg' 
-                    : 'border-gray-200 hover:border-pink-300 hover:shadow-md'
-                }`}
-                onClick={() => setSelectedService(service.id)}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 ${service.color} rounded-lg flex items-center justify-center text-white font-bold text-sm`}>
-                    {service.label}
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-800">{service.name}</h4>
-                    {service.id === 'imgur' && (
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">推奨</span>
-                    )}
-                  </div>
-                </div>
-                <p className="text-sm text-gray-600 mb-3">{service.description}</p>
-                <ul className="text-xs text-gray-500 space-y-1">
-                  {service.features.map((feature, index) => (
-                    <li key={index}>• {feature}</li>
-                  ))}
-                </ul>
-                {selectedService === service.id && (
-                  <button className="w-full mt-3 bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition-colors">
-                    {service.name} を使用
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Upload Area */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4 text-center">📤 写真をアップロード</h3>
-          <div 
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 ${
-              dragActive 
-                ? 'border-pink-400 bg-pink-50' 
-                : 'border-gray-300 hover:border-pink-400'
-            }`}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          >
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleChange}
-              className="hidden"
-              id="file-upload"
-            />
-            <label htmlFor="file-upload" className="cursor-pointer">
-              <Camera className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-lg text-gray-600 mb-2">写真をドロップまたはクリックして選択</p>
-              <p className="text-sm text-gray-500">JPG、PNG、GIF対応 (最大10MB)</p>
-            </label>
-          </div>
-        </div>
-
-        {/* Shared Photos */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4 text-center">🖼️ 共有された写真</h3>
-          {uploadedPhotos.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">
-              <p className="italic">まだ写真がありません。 最初の思い出をシェアしてみましょう！</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {uploadedPhotos.map((photo) => (
-                <div 
-                  key={photo.id} 
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
+            <div class="family-title" id="familyTitle">💖 ファミリーアルバム</div>
+            <div id="familyInputContainer">
+                <input 
+                    type="text" 
+                    class="family-input" 
+                    id="familyInput"
+                    placeholder="家族名を入力してください (例: 田中家)"
                 >
-                  <img 
-                    src={photo.src} 
-                    alt={photo.name}
-                    className="w-full h-32 object-cover"
-                  />
-                  <div className="p-2">
-                    <p className="text-xs text-gray-600 truncate">{photo.name}</p>
-                    <p className="text-xs text-gray-400">{photo.uploadDate}</p>
-                  </div>
-                </div>
-              ))}
             </div>
-          )}
+            <button class="change-name-btn hidden" id="changeNameBtn">名前を変更</button>
+            <p class="description">家族だけの特別な思い出を簡単に共有</p>
+            <div class="members">
+                <span>👥</span>
+                <span>4人のメンバー</span>
+            </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center mt-12 text-sm text-gray-400">
-          <p>家族の大切な思い出を安全に保管・共有</p>
+        <!-- Service Selection -->
+        <div>
+            <h3 class="section-title">📸 写真共有サービスを選択</h3>
+            <div class="services-grid">
+                <div class="service-card" data-service="imgur">
+                    <div class="service-header">
+                        <div class="service-icon imgur">IMG</div>
+                        <div>
+                            <div class="service-name">
+                                Imgur
+                                <span class="recommended">推奨</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-description">無料で簡単、アカウント不要で即座に共有</div>
+                    <ul class="service-features">
+                        <li>アカウント登録不要</li>
+                        <li>無制限アップロード</li>
+                        <li>直接リンク共有</li>
+                        <li>高速表示</li>
+                    </ul>
+                    <button class="use-service-btn hidden">Imgur を使用</button>
+                </div>
+
+                <div class="service-card" data-service="cloudinary">
+                    <div class="service-header">
+                        <div class="service-icon cloudinary">CLD</div>
+                        <div>
+                            <div class="service-name">Cloudinary</div>
+                        </div>
+                    </div>
+                    <div class="service-description">プロ品質の画像管理・変換</div>
+                    <ul class="service-features">
+                        <li>自動画像最適化</li>
+                        <li>リサイズ・圧縮</li>
+                        <li>CDN配信</li>
+                        <li>無料プランあり</li>
+                    </ul>
+                    <button class="use-service-btn hidden">Cloudinary を使用</button>
+                </div>
+
+                <div class="service-card" data-service="github">
+                    <div class="service-header">
+                        <div class="service-icon github">GH</div>
+                        <div>
+                            <div class="service-name">GitHub Pages</div>
+                        </div>
+                    </div>
+                    <div class="service-description">開発者向け、Git統合</div>
+                    <ul class="service-features">
+                        <li>バージョン管理</li>
+                        <li>無料ホスティング</li>
+                        <li>カスタムドメイン</li>
+                        <li>技術的制御</li>
+                    </ul>
+                    <button class="use-service-btn hidden">GitHub を使用</button>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- Upload Area -->
+        <div>
+            <h3 class="section-title">📤 写真をアップロード</h3>
+            <div class="upload-area" id="uploadArea">
+                <label for="file-upload" class="upload-label">
+                    <div class="upload-icon">📸</div>
+                    <div class="upload-text">写真をドロップまたはクリックして選択</div>
+                    <div class="upload-subtext">JPG、PNG、GIF対応 (最大10MB)</div>
+                </label>
+                <input type="file" id="file-upload" multiple accept="image/*">
+            </div>
+        </div>
+
+        <!-- Shared Photos -->
+        <div>
+            <h3 class="section-title">🖼️ 共有された写真</h3>
+            <div id="photosContainer">
+                <div class="empty-state" id="emptyState">
+                    まだ写真がありません。 最初の思い出をシェアしてみましょう！
+                </div>
+                <div class="photos-grid hidden" id="photosGrid"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>家族の大切な思い出を安全に保管・共有</p>
+        </div>
     </div>
-  );
-};
 
-export default FamiPicApp;
+    <script>
+        let selectedService = '';
+        let uploadedPhotos = [];
+        let familyName = '';
+
+        // DOM elements
+        const familyTitle = document.getElementById('familyTitle');
+        const familyInput = document.getElementById('familyInput');
+        const familyInputContainer = document.getElementById('familyInputContainer');
+        const changeNameBtn = document.getElementById('changeNameBtn');
+        const serviceCards = document.querySelectorAll('.service-card');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileUpload = document.getElementById('file-upload');
+        const emptyState = document.getElementById('emptyState');
+        const photosGrid = document.getElementById('photosGrid');
+
+        // Family name handling
+        familyInput.addEventListener('input', function() {
+            familyName = this.value.trim();
+            updateFamilyTitle();
+        });
+
+        changeNameBtn.addEventListener('click', function() {
+            familyName = '';
+            familyInput.value = '';
+            updateFamilyTitle();
+        });
+
+        function updateFamilyTitle() {
+            if (familyName) {
+                familyTitle.textContent = `💖 ${familyName}のアルバム`;
+                familyInputContainer.classList.add('hidden');
+                changeNameBtn.classList.remove('hidden');
+            } else {
+                familyTitle.textContent = '💖 ファミリーアルバム';
+                familyInputContainer.classList.remove('hidden');
+                changeNameBtn.classList.add('hidden');
+            }
+        }
+
+        // Service selection
+        serviceCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const service = this.dataset.service;
+                
+                // Remove selection from all cards
+                serviceCards.forEach(c => {
+                    c.classList.remove('selected');
+                    c.querySelector('.use-service-btn').classList.add('hidden');
+                });
+
+                // Add selection to clicked card
+                this.classList.add('selected');
+                this.querySelector('.use-service-btn').classList.remove('hidden');
+                selectedService = service;
+            });
+        });
+
+        // File upload handling
+        fileUpload.addEventListener('change', handleFileSelect);
+
+        // Drag and drop
+        uploadArea.addEventListener('dragenter', handleDrag);
+        uploadArea.addEventListener('dragover', handleDrag);
+        uploadArea.addEventListener('dragleave', handleDragLeave);
+        uploadArea.addEventListener('drop', handleDrop);
+
+        function handleDrag(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadArea.classList.add('drag-active');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadArea.classList.remove('drag-active');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadArea.classList.remove('drag-active');
+
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const photo = {
+                            id: Date.now() + Math.random(),
+                            src: e.target.result,
+                            name: file.name,
+                            uploadDate: new Date().toLocaleDateString('ja-JP')
+                        };
+                        uploadedPhotos.push(photo);
+                        updatePhotosDisplay();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function updatePhotosDisplay() {
+            if (uploadedPhotos.length === 0) {
+                emptyState.classList.remove('hidden');
+                photosGrid.classList.add('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                photosGrid.classList.remove('hidden');
+                
+                photosGrid.innerHTML = '';
+                uploadedPhotos.forEach(photo => {
+                    const photoCard = document.createElement('div');
+                    photoCard.className = 'photo-card';
+                    photoCard.innerHTML = `
+                        <img src="${photo.src}" alt="${photo.name}" class="photo-image">
+                        <div class="photo-info">
+                            <div class="photo-name">${photo.name}</div>
+                            <div class="photo-date">${photo.uploadDate}</div>
+                        </div>
+                    `;
+                    photosGrid.appendChild(photoCard);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
