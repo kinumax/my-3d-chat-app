@@ -578,37 +578,68 @@
             const albumData = {
                 familyName: familyName,
                 members: members,
-                photos: uploadedPhotos,
+                photos: uploadedPhotos.map(photo => ({
+                    id: photo.id,
+                    name: photo.name,
+                    uploadDate: photo.uploadDate,
+                    // Store image data separately in smaller chunks
+                    hasImage: true
+                })),
                 selectedService: selectedService,
                 lastUpdated: new Date().toISOString()
             };
             
             try {
-                const dataStr = JSON.stringify(albumData);
-                const compressed = btoa(encodeURIComponent(dataStr));
-                localStorage.setItem('famipic_' + albumId, compressed);
+                // Save main album data
+                localStorage.setItem('famipic_' + albumId, JSON.stringify(albumData));
+                
+                // Save each photo separately to handle large images
+                uploadedPhotos.forEach(photo => {
+                    try {
+                        localStorage.setItem('famipic_photo_' + photo.id, photo.src);
+                    } catch (e) {
+                        console.warn('写真の保存に失敗しました (サイズが大きすぎる可能性があります):', photo.name);
+                    }
+                });
             } catch (e) {
                 console.warn('データの保存に失敗しました:', e);
+                // Show user notification
+                showNotification('データの保存に失敗しました。写真のサイズを小さくしてください。', 'warning');
             }
         }
 
         function loadAlbumData() {
             try {
-                const compressed = localStorage.getItem('famipic_' + albumId);
-                if (compressed) {
-                    const dataStr = decodeURIComponent(atob(compressed));
-                    const albumData = JSON.parse(dataStr);
+                const albumDataStr = localStorage.getItem('famipic_' + albumId);
+                if (albumDataStr) {
+                    const albumData = JSON.parse(albumDataStr);
                     
                     familyName = albumData.familyName || '';
                     members = albumData.members || [];
-                    uploadedPhotos = albumData.photos || [];
                     selectedService = albumData.selectedService || '';
+                    
+                    // Load photos with their image data
+                    uploadedPhotos = [];
+                    if (albumData.photos) {
+                        albumData.photos.forEach(photoMeta => {
+                            const imageData = localStorage.getItem('famipic_photo_' + photoMeta.id);
+                            if (imageData) {
+                                uploadedPhotos.push({
+                                    id: photoMeta.id,
+                                    name: photoMeta.name,
+                                    uploadDate: photoMeta.uploadDate,
+                                    src: imageData
+                                });
+                            }
+                        });
+                    }
                     
                     // Update displays
                     familyInput.value = familyName;
                     updateFamilyTitle();
                     updateMembersDisplay();
                     updatePhotosDisplay();
+                    updateShareLink();
                     
                     // Update service selection
                     if (selectedService) {
@@ -621,6 +652,7 @@
                 }
             } catch (e) {
                 console.warn('データの読み込みに失敗しました:', e);
+                showNotification('データの読み込みに失敗しました', 'error');
             }
         }
 
@@ -731,18 +763,49 @@
                 if (file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        const photo = {
-                            id: Date.now() + Math.random(),
-                            src: e.target.result,
-                            name: file.name,
-                            uploadDate: new Date().toLocaleDateString('ja-JP')
+                        // Compress image if it's too large
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            
+                            // Calculate new dimensions (max 800px width/height)
+                            let { width, height } = img;
+                            const maxSize = 800;
+                            if (width > maxSize || height > maxSize) {
+                                if (width > height) {
+                                    height = (height * maxSize) / width;
+                                    width = maxSize;
+                                } else {
+                                    width = (width * maxSize) / height;
+                                    height = maxSize;
+                                }
+                            }
+                            
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.drawImage(img, 0, 0, width, height);
+                            
+                            // Convert to compressed JPEG
+                            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                            
+                            const photo = {
+                                id: Date.now() + Math.random(),
+                                src: compressedDataUrl,
+                                name: file.name,
+                                uploadDate: new Date().toLocaleDateString('ja-JP')
+                            };
+                            uploadedPhotos.push(photo);
+                            updatePhotosDisplay();
+                            updateShareLink();
+                            saveAlbumData();
+                            showNotification(`${file.name} をアップロードしました`, 'success');
                         };
-                        uploadedPhotos.push(photo);
-                        updatePhotosDisplay();
-                        updateShareLink();
-                        saveAlbumData();
+                        img.src = e.target.result;
                     };
                     reader.readAsDataURL(file);
+                } else {
+                    showNotification(`${file.name} は対応していない形式またはサイズが大きすぎます`, 'warning');
                 }
             });
         }
@@ -760,6 +823,7 @@
                     const photoCard = document.createElement('div');
                     photoCard.className = 'photo-card';
                     photoCard.innerHTML = `
+                        <button class="delete-photo-btn" onclick="deletePhoto('${photo.id}')" title="写真を削除">×</button>
                         <img src="${photo.src}" alt="${photo.name}" class="photo-image">
                         <div class="photo-info">
                             <div class="photo-name">${photo.name}</div>
@@ -769,6 +833,40 @@
                     photosGrid.appendChild(photoCard);
                 });
             }
+        }
+
+        function deletePhoto(photoId) {
+            if (confirm('この写真を削除しますか？')) {
+                // Remove from array
+                uploadedPhotos = uploadedPhotos.filter(photo => photo.id != photoId);
+                // Remove from localStorage
+                localStorage.removeItem('famipic_photo_' + photoId);
+                // Update display and save
+                updatePhotosDisplay();
+                updateShareLink();
+                saveAlbumData();
+                showNotification('写真を削除しました', 'success');
+            }
+        }
+
+        function showNotification(message, type = 'success') {
+            // Remove existing notifications
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
 
         // Service link handling
