@@ -95,7 +95,7 @@
             display: flex;
             gap: 0.75rem;
         }
-
+        
         .header-btn {
             width: 2.75rem;
             height: 2.75rem;
@@ -214,7 +214,7 @@
             font-weight: 600;
             font-size: 0.95rem;
         }
-
+        
         .post-card {
             background: var(--bg-secondary);
             border-radius: 1rem;
@@ -230,7 +230,7 @@
             box-shadow: var(--shadow-xl);
             border-color: var(--accent-primary);
         }
-
+        
         .post-header {
             padding: 1.25rem 1.5rem;
             display: flex;
@@ -307,7 +307,7 @@
             transform: translateY(-1px);
             color: var(--accent-hover);
         }
-
+        
         .post-comment {
             margin-bottom: 1rem;
             font-size: 1rem;
@@ -335,7 +335,7 @@
             margin-right: 0.5rem;
             color: var(--accent-primary);
         }
-
+        
         .comment-form {
             display: flex;
             gap: 0.75rem;
@@ -353,7 +353,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.9rem;
         }
-
+        
         .comment-input:focus {
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
@@ -405,7 +405,7 @@
                 backdrop-filter: blur(8px);
             }
         }
-
+        
         .modal-content {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -463,7 +463,7 @@
             transform: scale(1.1) rotate(90deg);
             color: var(--text-primary);
         }
-
+        
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -487,7 +487,7 @@
             color: var(--text-primary);
             font-size: 1rem;
         }
-
+        
         .form-input:focus, .form-textarea:focus {
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
@@ -566,7 +566,7 @@
             background: #dc2626;
             transform: scale(1.1);
         }
-
+        
         .submit-btn {
             width: 100%;
             background: var(--gradient);
@@ -636,7 +636,7 @@
             background: var(--bg-tertiary);
             transform: translateY(-1px);
         }
-
+        
         .nav-text {
             font-size: 0.75rem;
             margin-top: 0.5rem;
@@ -647,7 +647,7 @@
             display: none;
         }
 
-        .members-grid, .stats-card, .join-form {
+        .members-grid, .stats-card, .join-form, .data-management {
             background: var(--bg-secondary);
             border-radius: 1rem;
             box-shadow: var(--shadow-md);
@@ -661,7 +661,7 @@
             box-shadow: var(--shadow-lg);
             transform: translateY(-2px);
         }
-
+        
         .member-item {
             display: flex;
             align-items: center;
@@ -738,7 +738,7 @@
             border: 1px solid rgba(236, 72, 153, 0.2);
             line-height: 1.6;
         }
-
+        
         .invite-link-container {
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
@@ -771,7 +771,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: var(--shadow-sm);
         }
-
+        
         .copy-btn:hover {
             background: var(--gradient-hover);
             transform: translateY(-1px);
@@ -813,7 +813,48 @@
             position: absolute;
             left: 0;
         }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-direction: column;
+        }
+        
+        .data-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
 
+        .data-btn:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .file-upload-input {
+            display: none;
+        }
+        
+        .timestamp {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            text-align: right;
+            border-top: 1px dashed var(--border-light);
+            padding-top: 0.5rem;
+        }
+        
         /* SVG Icons */
         .icon {
             width: 1.25rem;
@@ -846,7 +887,7 @@
                 margin: 0 0.75rem 1.5rem;
             }
 
-            .members-grid, .stats-card, .join-form {
+            .members-grid, .stats-card, .join-form, .data-management {
                 margin: 0 0.75rem 1.5rem;
                 padding: 1.5rem;
             }
@@ -900,7 +941,6 @@
 </head>
 <body>
     <div class="app">
-        <!-- ヘッダー -->
         <header class="header">
             <h1>📱 FamiPic</h1>
             <div class="header-actions">
@@ -920,9 +960,7 @@
             </div>
         </header>
 
-        <!-- メインコンテンツ -->
         <main class="content">
-            <!-- グループ参加フォーム（招待リンクでアクセスした場合に表示） -->
             <div id="joinForm" class="join-form hidden">
                 <h2 class="modal-title">🎉 グループに参加しよう！</h2>
                 <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 1rem;">
@@ -935,7 +973,6 @@
                 <button class="submit-btn" onclick="joinGroup()">グループに参加する</button>
             </div>
 
-            <!-- ホーム画面 -->
             <div id="homeTab">
                 <div class="family-header" onclick="showGroupNameEdit()">
                     <div class="group-title-container">
@@ -968,17 +1005,14 @@
                 </div>
 
                 <div id="postsContainer">
-                    <!-- 投稿がここに表示されます -->
-                </div>
+                    </div>
             </div>
 
-            <!-- メンバー画面 -->
             <div id="membersTab" class="hidden">
                 <div class="members-grid">
                     <h2 style="margin-bottom: 1.5rem; font-weight: 800; font-size: 1.25rem;">👨‍👩‍👧‍👦 グループメンバー</h2>
                     <div id="membersList">
-                        <!-- メンバーがここに表示されます -->
-                    </div>
+                        </div>
                     <div class="privacy-notice">
                         🔒 このアプリはプライベートグループです<br/>
                         安全に思い出を共有できます
@@ -1000,10 +1034,35 @@
                         <span class="stat-value" id="totalComments">2</span>
                     </div>
                 </div>
+
+                <div class="data-management">
+                    <h3 style="font-weight: 800; margin-bottom: 1.5rem; font-size: 1.25rem;">💾 データ管理</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        ローカルに保存されたデータをバックアップしたり、別のデバイスにデータを移行したりできます。
+                    </p>
+                    <div class="button-group">
+                        <button class="data-btn" onclick="exportData()">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7,10 12,15 17,10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            データをエクスポート
+                        </button>
+                        <label class="data-btn" for="importFile">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17,10 12,15 7,10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            データをインポート
+                        </label>
+                        <input type="file" id="importFile" class="file-upload-input" accept=".json" onchange="importData(event)">
+                    </div>
+                </div>
             </div>
         </main>
 
-        <!-- グループ名編集モーダル -->
         <div id="groupNameModal" class="modal hidden">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1028,7 +1087,6 @@
             </div>
         </div>
 
-        <!-- 招待モーダル -->
         <div id="inviteModal" class="modal hidden">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1047,8 +1105,7 @@
                 <div class="invite-link-container">
                     <p style="font-weight: 600; margin-bottom: 0.75rem;">招待リンク:</p>
                     <div class="invite-link" id="inviteLink">
-                        <!-- 招待リンクがここに表示されます -->
-                    </div>
+                        </div>
                     <button class="copy-btn" onclick="copyInviteLink()">📋 リンクをコピー</button>
                 </div>
 
@@ -1063,7 +1120,6 @@
             </div>
         </div>
 
-        <!-- アップロードモーダル -->
         <div id="uploadModal" class="modal hidden">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1111,16 +1167,15 @@
             </div>
         </div>
 
-        <!-- ボトムナビゲーション -->
         <nav class="bottom-nav">
-            <button class="nav-btn active" onclick="showTab('home')" aria-label="ホーム">
+            <button class="nav-btn active" onclick="showTab('home', event)" aria-label="ホーム">
                 <svg class="icon" viewBox="0 0 24 24">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     <polyline points="9,22 9,12 15,12 15,22"/>
                 </svg>
                 <span class="nav-text">ホーム</span>
             </button>
-            <button class="nav-btn" onclick="showTab('members')" aria-label="メンバー">
+            <button class="nav-btn" onclick="showTab('members', event)" aria-label="メンバー">
                 <svg class="icon" viewBox="0 0 24 24">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                     <circle cx="9" cy="7" r="4"/>
@@ -1149,17 +1204,19 @@
                     author: 'お母さん',
                     avatar: 'お',
                     location: '家族旅行 - 海辺',
-                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjODdDRUVCIi8+CjxjaXJjbGUgY3g9IjMwMCIgY3k9IjgwIiByPSI0MCIgZmlsbD0iI0ZGRDcwMCIvPgo8cGF0aCBkPSJNMCAyMDBMMTAwIDE4MEwyMDAgMTkwTDMwMCAxNzBMNDAwIDE4MFYzMDBIMFYyMDBaIiBmaWxsPSIjRjU5RTBCIi8+CjxwYXRoIGQ9Ik0wIDI0MEwxMDAgMjIwTDIwMCAyMzBMMzAwIDIxMEw0MDAgMjIwVjMwMEgwVjI0MFoiIGZpbGw9IiNGRkY3RUQiLz4KPHRleHQgeD0iMjAwIiB5PSIxNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzM3NDE1MSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+🏖️ 海辺の思い出</dGV4dD4KPC9zdmc+',
+                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjOENFRUIiLz4KPHBhdGggZD0iTTAgMjAwTDEwMCAxODBMMjAwIDE5MkwzMDAgMTcwTDM4MCAxODBWNTBIMjAwTDUwIDEwMFYyMDZaIiBmaWxsPSIjRjU5RTBCIi8+CjxwYXRoIGQ9Ik0wIDI0MEwxMDAgMjIwTDIwMCAyMzBMMzAwIDIxMEw0MDAgMjIwVjMwMEgwVjI0MFoiIGZpbGw9IiNGRkY3RUQiLz4KPHRleHQgeD0iMjAwIiB5PSIxNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzM3NDE1MSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+🏖️ 海辺の思い出</dGV4dD4KPC9zdmc+',
                     comment: '素敵な夕日でした！家族みんなで見れて良かった ✨',
                     likes: 3,
                     comments: [
                         { author: 'お父さん', text: '本当にきれいだったね！' },
                         { author: '娘', text: 'また行きたい〜！ 🌅' }
                     ],
-                    timestamp: new Date()
+                    timestamp: new Date('2025-08-15T18:00:00Z')
                 }
             ]
         };
+
+        let uploadedFile = null;
 
         // ローカルストレージからデータを読み込み
         function loadAppState() {
@@ -1167,9 +1224,7 @@
             if (savedState) {
                 try {
                     const parsed = JSON.parse(savedState);
-                    // 既存のデータとマージ
                     appState = { ...appState, ...parsed };
-                    // 投稿の日付を復元
                     appState.posts.forEach(post => {
                         post.timestamp = new Date(post.timestamp);
                     });
@@ -1192,7 +1247,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadAppState();
             
-            // URLパラメータをチェックして招待リンクかどうか判定
             const urlParams = new URLSearchParams(window.location.search);
             const inviteCode = urlParams.get('invite');
             
@@ -1215,7 +1269,7 @@
             document.getElementById('groupTitle').textContent = `💖 ${appState.groupName}`;
             document.getElementById('memberCount').textContent = `${appState.members.length}人のメンバー`;
             document.getElementById('photoCount').textContent = `${appState.posts.length}枚の写真`;
-            document.getElementById('monthlyPosts').textContent = `${appState.posts.length}枚`;
+            document.getElementById('monthlyPosts').textContent = `${appState.posts.filter(p => p.timestamp.getMonth() === new Date().getMonth()).length}枚`;
             
             const totalLikes = appState.posts.reduce((sum, post) => sum + post.likes, 0);
             const totalComments = appState.posts.reduce((sum, post) => sum + post.comments.length, 0);
@@ -1229,10 +1283,31 @@
             const container = document.getElementById('postsContainer');
             container.innerHTML = '';
 
-            appState.posts.forEach(post => {
+            appState.posts.sort((a, b) => b.timestamp - a.timestamp).forEach(post => {
                 const postElement = createPostElement(post);
                 container.appendChild(postElement);
             });
+        }
+
+        // タイムスタンプの整形
+        function formatTimestamp(date) {
+            const now = new Date();
+            const diffSeconds = Math.floor((now - date) / 1000);
+            const diffMinutes = Math.floor(diffSeconds / 60);
+            const diffHours = Math.floor(diffMinutes / 60);
+            const diffDays = Math.floor(diffHours / 24);
+
+            if (diffSeconds < 60) {
+                return 'たった今';
+            } else if (diffMinutes < 60) {
+                return `${diffMinutes}分前`;
+            } else if (diffHours < 24) {
+                return `${diffHours}時間前`;
+            } else if (diffDays < 7) {
+                return `${diffDays}日前`;
+            } else {
+                return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+            }
         }
 
         // 投稿要素の作成
@@ -1241,7 +1316,7 @@
             div.className = 'post-card';
             div.innerHTML = `
                 <div class="post-header">
-                    <div class="avatar">${post.avatar}</div>
+                    <div class="avatar" style="background: ${getMemberColor(post.author)}">${post.avatar}</div>
                     <div class="post-author">
                         <h3>${post.author}</h3>
                         <p class="post-location">${post.location}</p>
@@ -1265,37 +1340,57 @@
                     </div>
                     <p class="post-comment">${post.comment}</p>
                     <div class="comments">
-                        ${post.comments.map(comment => `
+                        <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">コメント</h4>
+                        ${post.comments.length > 0 ? post.comments.map(comment => `
                             <div class="comment">
                                 <span class="comment-author">${comment.author}</span>
                                 ${comment.text}
                             </div>
-                        `).join('')}
+                        `).join('') : '<p style="font-size: 0.9rem; color: var(--text-muted);">まだコメントはありません。</p>'}
                         <div class="comment-form">
-                            <input type="text" class="comment-input" placeholder="コメントを追加..." onkeypress="handleCommentSubmit(event, ${post.id})" aria-label="コメントを入力">
+                            <input type="text" class="comment-input" placeholder="新しいコメントを追加..." onkeypress="handleCommentSubmit(event, ${post.id})" aria-label="コメントを入力">
                             <button class="comment-submit" onclick="addComment(${post.id})" aria-label="コメントを投稿">投稿</button>
                         </div>
                     </div>
+                    <div class="timestamp">${formatTimestamp(post.timestamp)}</div>
                 </div>
             `;
             return div;
+        }
+
+        // メンバーのアバターカラー取得
+        function getMemberColor(name) {
+            const member = appState.members.find(m => m.name === name);
+            if (member) {
+                return member.color;
+            }
+            return 'var(--gradient)'; // デフォルト
         }
 
         // メンバーの表示
         function renderMembers() {
             const container = document.getElementById('membersList');
             container.innerHTML = '';
+            
+            const memberColors = [
+                'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                'linear-gradient(135deg, #10b981, #059669)',
+                'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                'linear-gradient(135deg, #ec4899, #fb923c)',
+                'linear-gradient(135deg, #f59e0b, #f97316)',
+                'linear-gradient(135deg, #06b6d4, #0891b2)',
+                'linear-gradient(135deg, #84cc16, #65a30d)'
+            ];
 
-            appState.members.forEach(member => {
+            appState.members.forEach((member, index) => {
                 const memberElement = document.createElement('div');
                 memberElement.className = 'member-item';
                 
-                // 招待で参加したメンバーには特別な表示
                 const roleText = member.joinedViaInvite ? 
                     `${member.role} • 招待で参加` : member.role;
                 
                 memberElement.innerHTML = `
-                    <div class="member-avatar" style="background: ${member.color};">${member.avatar}</div>
+                    <div class="member-avatar" style="background: ${member.color || memberColors[index % memberColors.length]};">${member.avatar}</div>
                     <div class="member-info">
                         <h3>${member.name}</h3>
                         <p class="member-role">${roleText}</p>
@@ -1304,9 +1399,9 @@
                 container.appendChild(memberElement);
             });
         }
-
+        
         // タブの切り替え
-        function showTab(tabName) {
+        function showTab(tabName, event) {
             // すべてのタブを非表示
             document.getElementById('homeTab').classList.add('hidden');
             document.getElementById('membersTab').classList.add('hidden');
@@ -1325,7 +1420,6 @@
             document.getElementById('groupNameModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             
-            // フォーカスを設定
             setTimeout(() => {
                 document.getElementById('newGroupName').focus();
                 document.getElementById('newGroupName').select();
@@ -1352,7 +1446,6 @@
             saveAppState();
             hideGroupNameEdit();
             
-            // 成功メッセージ
             setTimeout(() => {
                 alert(`✨ グループ名を「${newName}」に変更しました！`);
             }, 300);
@@ -1385,30 +1478,11 @@
                     btn.textContent = originalText;
                     btn.style.background = '';
                 }, 2000);
-            }).catch(() => {
-                // フォールバック: テキストエリアを使用
-                const textArea = document.createElement('textarea');
-                textArea.value = inviteLink;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✅ コピーしました！';
-                btn.style.background = '#10b981';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 2000);
             });
         }
 
         // グループ参加フォームの表示
         function showJoinForm(inviteCode) {
-            // URLパラメータからグループ名を取得
             const urlParams = new URLSearchParams(window.location.search);
             const groupName = urlParams.get('group');
             
@@ -1420,7 +1494,6 @@
             document.getElementById('homeTab').classList.add('hidden');
             document.querySelector('.bottom-nav').style.display = 'none';
             
-            // フォーカスを設定
             setTimeout(() => {
                 document.getElementById('memberName').focus();
             }, 100);
@@ -1435,15 +1508,13 @@
                 return;
             }
 
-            // URLパラメータからグループ情報を取得
             const urlParams = new URLSearchParams(window.location.search);
             const groupName = urlParams.get('group');
             
             if (groupName) {
                 appState.groupName = decodeURIComponent(groupName);
             }
-
-            // 新しいメンバーを追加
+            
             const avatarColors = [
                 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                 'linear-gradient(135deg, #f59e0b, #f97316)',
@@ -1463,21 +1534,17 @@
             
             appState.members.push(newMember);
             appState.currentUser = memberName;
-
-            // データを保存
+            
             saveAppState();
-
-            // UIを更新
+            
             document.getElementById('joinForm').classList.add('hidden');
             document.getElementById('homeTab').classList.remove('hidden');
             document.querySelector('.bottom-nav').style.display = 'flex';
             
-            // URLからパラメータを削除
             window.history.replaceState({}, document.title, window.location.pathname);
             
             initializeApp();
             
-            // 参加成功メッセージ
             setTimeout(() => {
                 alert(`🎉 ${appState.groupName}に参加しました！`);
             }, 500);
@@ -1500,6 +1567,7 @@
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (file) {
+                uploadedFile = file;
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('previewImg').src = e.target.result;
@@ -1514,6 +1582,7 @@
         function removeImage() {
             document.getElementById('imagePreview').classList.add('hidden');
             document.getElementById('fileInput').value = '';
+            uploadedFile = null;
             document.getElementById('uploadBtn').disabled = true;
         }
 
@@ -1521,40 +1590,39 @@
         function uploadPhoto() {
             const location = document.getElementById('locationInput').value.trim();
             const comment = document.getElementById('commentInput').value.trim();
-            const imageUrl = document.getElementById('previewImg').src;
 
-            if (!location || !comment || !imageUrl) {
+            if (!location || !comment || !uploadedFile) {
                 alert('すべての項目を入力してください');
                 return;
             }
 
-            // 新しい投稿を作成
-            const newPost = {
-                id: appState.posts.length + 1,
-                author: appState.currentUser,
-                avatar: appState.currentUser.charAt(0),
-                location: location,
-                image: imageUrl,
-                comment: comment,
-                likes: 0,
-                comments: [],
-                timestamp: new Date()
-            };
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newPost = {
+                    id: Date.now(),
+                    author: appState.currentUser,
+                    avatar: appState.currentUser.charAt(0),
+                    location: location,
+                    image: e.target.result,
+                    comment: comment,
+                    likes: 0,
+                    comments: [],
+                    timestamp: new Date()
+                };
 
-            appState.posts.unshift(newPost);
-            
-            // データを保存
-            saveAppState();
-            
-            // UIを更新
-            renderPosts();
-            updateUI();
-            hideUpload();
-            
-            // 成功メッセージ
-            setTimeout(() => {
-                alert('📸 写真をシェアしました！');
-            }, 300);
+                appState.posts.unshift(newPost);
+                
+                saveAppState();
+                
+                renderPosts();
+                updateUI();
+                hideUpload();
+                
+                setTimeout(() => {
+                    alert('📸 写真をシェアしました！');
+                }, 300);
+            };
+            reader.readAsDataURL(uploadedFile);
         }
 
         // アップロードフォームのリセット
@@ -1564,6 +1632,7 @@
             document.getElementById('fileInput').value = '';
             document.getElementById('imagePreview').classList.add('hidden');
             document.getElementById('uploadBtn').disabled = true;
+            uploadedFile = null;
         }
 
         // いいね機能
@@ -1602,6 +1671,45 @@
             }
         }
 
+        // データをJSONファイルとしてエクスポート
+        function exportData() {
+            const dataStr = JSON.stringify(appState, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `famipic_data_${appState.groupId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('✅ データをエクスポートしました！\nこのファイルを大切に保管してください。');
+        }
+
+        // JSONファイルからデータをインポート
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (confirm('既存のデータを上書きして、このデータをインポートしますか？')) {
+                        appState = importedData;
+                        saveAppState();
+                        initializeApp();
+                        alert('✅ データをインポートしました！');
+                    }
+                } catch (error) {
+                    alert('❌ ファイル形式が正しくありません。');
+                    console.error('Import failed:', error);
+                }
+            };
+            reader.readAsText(file);
+        }
+
         // モーダル外クリックで閉じる
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('modal')) {
@@ -1613,7 +1721,6 @@
         // キーボードショートカット
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
-                // すべてのモーダルを閉じる
                 document.querySelectorAll('.modal').forEach(modal => {
                     modal.classList.add('hidden');
                 });
@@ -1621,26 +1728,6 @@
             }
         });
 
-        // パフォーマンス最適化: 画像の遅延読み込み
-        function lazyLoadImages() {
-            const images = document.querySelectorAll('img[data-src]');
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('loading');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-
-            images.forEach(img => imageObserver.observe(img));
-        }
-
-        // 初期化時に遅延読み込みを設定
-        document.addEventListener('DOMContentLoaded', lazyLoadImages);
     </script>
 </body>
 </html>
-
