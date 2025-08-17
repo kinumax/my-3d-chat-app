@@ -5,6 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FamiPic - 家族写真共有アプリ</title>
     <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --accent-primary: #ec4899;
+            --accent-secondary: #fb923c;
+            --accent-hover: #db2777;
+            --border-color: #e2e8f0;
+            --border-light: #f1f5f9;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --gradient: linear-gradient(135deg, #ec4899 0%, #fb923c 100%);
+            --gradient-hover: linear-gradient(135deg, #db2777 0%, #f97316 100%);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0f172a;
+                --bg-secondary: #1e293b;
+                --bg-tertiary: #334155;
+                --text-primary: #f8fafc;
+                --text-secondary: #cbd5e1;
+                --text-muted: #94a3b8;
+                --border-color: #334155;
+                --border-light: #475569;
+                --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+                --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+                --glass-bg: rgba(30, 41, 59, 0.9);
+                --glass-border: rgba(255, 255, 255, 0.1);
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,36 +53,130 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f9fafb;
-            color: #374151;
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
         }
 
         .app {
             max-width: 448px;
             margin: 0 auto;
             min-height: 100vh;
-            background: #f9fafb;
+            background: var(--bg-primary);
+            position: relative;
         }
 
         .header {
-            background: linear-gradient(135deg, #ec4899, #fb923c);
-            padding: 1rem;
+            background: var(--gradient);
+            padding: 1.25rem 1rem;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-lg);
         }
 
         .header h1 {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .add-btn {
-            width: 2.5rem;
-            height: 2.5rem;
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .header-btn {
+            width: 2.75rem;
+            height: 2.75rem;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-btn:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .content {
+            padding: 1.5rem 1rem;
+            padding-bottom: 6rem;
+        }
+
+        .family-header {
+            background: var(--gradient);
+            border-radius: 1rem;
+            padding: 2rem 1.5rem;
+            color: white;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .family-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .family-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        .family-header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .group-title-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .family-header h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+
+        .edit-group-btn {
+            width: 2rem;
+            height: 2rem;
             background: rgba(255, 255, 255, 0.2);
             border: none;
             border-radius: 50%;
@@ -50,85 +185,106 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.7;
         }
 
-        .add-btn:hover {
+        .edit-group-btn:hover {
             background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+            opacity: 1;
         }
 
-        .content {
-            padding: 1rem;
-            padding-bottom: 5rem;
-        }
-
-        .family-header {
-            background: linear-gradient(135deg, #ec4899, #fb923c);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            color: white;
-            margin-bottom: 1.5rem;
-        }
-
-        .family-header h2 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
+        .family-header p {
+            opacity: 0.95;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         .family-stats {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .stat {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
         .post-card {
-            background: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
             overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-light);
+        }
+
+        .post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-primary);
         }
 
         .post-header {
-            padding: 1rem;
+            padding: 1.25rem 1.5rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border-light);
         }
 
         .avatar {
-            width: 2.5rem;
-            height: 2.5rem;
-            background: linear-gradient(135deg, #ec4899, #fb923c);
+            width: 3rem;
+            height: 3rem;
+            background: var(--gradient);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 1.125rem;
+            box-shadow: var(--shadow-md);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .post-author h3 {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .post-location {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .post-image {
             width: 100%;
-            height: 16rem;
+            height: 18rem;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .post-card:hover .post-image {
+            transform: scale(1.02);
         }
 
         .post-content {
-            padding: 1rem;
+            padding: 1.5rem;
         }
 
         .post-actions {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
 
         .action-btn {
@@ -136,145 +292,222 @@
             border: none;
             display: flex;
             align-items: center;
-            gap: 0.25rem;
-            color: #ec4899;
+            gap: 0.5rem;
+            color: var(--accent-primary);
             cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .action-btn:hover {
-            background: #fdf2f8;
+            background: rgba(236, 72, 153, 0.1);
+            transform: translateY(-1px);
+            color: var(--accent-hover);
+        }
+
+        .post-comment {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-primary);
         }
 
         .comments {
-            border-top: 1px solid #e5e7eb;
-            padding-top: 0.75rem;
-            margin-top: 0.75rem;
+            border-top: 1px solid var(--border-light);
+            padding-top: 1rem;
+            margin-top: 1rem;
         }
 
         .comment {
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.75rem;
         }
 
         .comment-author {
-            font-weight: bold;
+            font-weight: 700;
             margin-right: 0.5rem;
+            color: var(--accent-primary);
         }
 
         .comment-form {
             display: flex;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
+            gap: 0.75rem;
+            margin-top: 1rem;
         }
 
         .comment-input {
             flex: 1;
-            padding: 0.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
             outline: none;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
         }
 
         .comment-input:focus {
-            border-color: #ec4899;
-            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+            transform: translateY(-1px);
         }
 
         .comment-submit {
-            background: #ec4899;
+            background: var(--gradient);
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.75rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-md);
         }
 
         .comment-submit:hover {
-            background: #db2777;
+            background: var(--gradient-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
-        .upload-modal {
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             padding: 1rem;
+            backdrop-filter: blur(8px);
+            animation: modalFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .upload-content {
-            background: white;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+            to {
+                opacity: 1;
+                backdrop-filter: blur(8px);
+            }
+        }
+
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.25rem;
+            padding: 2rem;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             max-height: 90vh;
             overflow-y: auto;
+            animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--shadow-xl);
         }
 
-        .upload-header {
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
         }
 
         .close-btn {
-            width: 2rem;
-            height: 2rem;
-            background: #f3f4f6;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--bg-tertiary);
             border: none;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .close-btn:hover {
+            background: var(--border-color);
+            transform: scale(1.1) rotate(90deg);
+            color: var(--text-primary);
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-label {
             display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-size: 1rem;
         }
 
         .form-input, .form-textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
         }
 
         .form-input:focus, .form-textarea:focus {
-            border-color: #ec4899;
-            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+            transform: translateY(-1px);
         }
 
         .file-upload {
-            border: 2px dashed #d1d5db;
-            border-radius: 0.5rem;
-            padding: 2rem;
+            border: 2px dashed var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2.5rem 2rem;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-tertiary);
+            cursor: pointer;
         }
 
         .file-upload:hover {
-            border-color: #ec4899;
+            border-color: var(--accent-primary);
+            background: rgba(236, 72, 153, 0.05);
+            transform: translateY(-2px);
         }
 
         .file-input {
@@ -283,63 +516,82 @@
 
         .file-label {
             display: inline-block;
-            background: #ec4899;
+            background: var(--gradient);
             color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.5rem;
+            padding: 0.875rem 2rem;
+            border-radius: 0.75rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
         }
 
         .file-label:hover {
-            background: #db2777;
+            background: var(--gradient-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .image-preview {
             position: relative;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
         }
 
         .preview-image {
             width: 100%;
-            height: 12rem;
+            height: 14rem;
             object-fit: cover;
-            border-radius: 0.5rem;
         }
 
         .remove-image {
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            width: 2rem;
-            height: 2rem;
-            background: #ef4444;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            background: rgba(239, 68, 68, 0.9);
             color: white;
             border: none;
             border-radius: 50%;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+        }
+
+        .remove-image:hover {
+            background: #dc2626;
+            transform: scale(1.1);
         }
 
         .submit-btn {
             width: 100%;
-            background: linear-gradient(135deg, #ec4899, #fb923c);
+            background: var(--gradient);
             color: white;
             border: none;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            box-shadow: var(--shadow-md);
         }
 
         .submit-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
         .submit-btn:hover:not(:disabled) {
-            transform: translateY(-1px);
+            background: var(--gradient-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .bottom-nav {
@@ -349,11 +601,14 @@
             transform: translateX(-50%);
             width: 100%;
             max-width: 448px;
-            background: white;
-            border-top: 1px solid #e5e7eb;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
             display: flex;
             justify-content: space-around;
-            padding: 0.5rem;
+            padding: 1rem 0.5rem;
+            z-index: 40;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .nav-btn {
@@ -362,74 +617,201 @@
             align-items: center;
             background: none;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.25rem;
             cursor: pointer;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
+            border-radius: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-secondary);
+            min-width: 4rem;
         }
 
         .nav-btn.active {
-            color: #ec4899;
-            background: #fdf2f8;
+            color: var(--accent-primary);
+            background: rgba(236, 72, 153, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:hover:not(.active) {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            transform: translateY(-1px);
         }
 
         .nav-text {
             font-size: 0.75rem;
-            margin-top: 0.25rem;
+            margin-top: 0.5rem;
+            font-weight: 600;
         }
 
         .hidden {
             display: none;
         }
 
-        .members-grid {
-            background: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
+        .members-grid, .stats-card, .join-form {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .members-grid:hover, .stats-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .member-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .member-item:hover {
+            background: var(--bg-tertiary);
+            transform: translateX(4px);
         }
 
         .member-avatar {
-            width: 3rem;
-            height: 3rem;
+            width: 3.5rem;
+            height: 3.5rem;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
-            font-size: 1.125rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-md);
         }
 
-        .stats-card {
-            background: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
+        .member-info h3 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .member-role {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .stat-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-size: 1.1rem;
         }
 
         .privacy-notice {
-            background: #fdf2f8;
+            background: rgba(236, 72, 153, 0.1);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            line-height: 1.6;
+        }
+
+        .invite-link-container {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .invite-link {
+            word-break: break-all;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+            background: var(--bg-secondary);
             padding: 1rem;
             border-radius: 0.5rem;
-            text-align: center;
-            font-size: 0.875rem;
-            color: #6b7280;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .copy-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .copy-btn:hover {
+            background: var(--gradient-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .usage-info {
             margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .usage-info h4 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .usage-info ul {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            list-style: none;
+            padding: 0;
+        }
+
+        .usage-info li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .usage-info li::before {
+            content: '•';
+            color: var(--accent-primary);
+            font-weight: 700;
+            position: absolute;
+            left: 0;
         }
 
         /* SVG Icons */
@@ -437,11 +819,82 @@
             width: 1.25rem;
             height: 1.25rem;
             fill: currentColor;
+            flex-shrink: 0;
         }
 
         .icon-lg {
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .app {
+                max-width: 100%;
+            }
+            
+            .content {
+                padding: 1rem 0.75rem;
+            }
+            
+            .family-header {
+                padding: 1.5rem 1.25rem;
+                margin: 0 0.75rem 1.5rem;
+            }
+
+            .post-card {
+                margin: 0 0.75rem 1.5rem;
+            }
+
+            .members-grid, .stats-card, .join-form {
+                margin: 0 0.75rem 1.5rem;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Loading animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .loading {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Focus styles for accessibility */
+        button:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -450,20 +903,51 @@
         <!-- ヘッダー -->
         <header class="header">
             <h1>📱 FamiPic</h1>
-            <button class="add-btn" onclick="showUpload()" id="addBtn">
-                <svg class="icon" viewBox="0 0 24 24">
-                    <path d="M12 4v16m8-8H4"/>
-                </svg>
-            </button>
+            <div class="header-actions">
+                <button class="header-btn" onclick="showInvite()" title="メンバーを招待" aria-label="メンバーを招待">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <line x1="20" y1="8" x2="20" y2="14"/>
+                        <line x1="23" y1="11" x2="17" y2="11"/>
+                    </svg>
+                </button>
+                <button class="header-btn" onclick="showUpload()" id="addBtn" aria-label="写真を追加">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 4v16m8-8H4"/>
+                    </svg>
+                </button>
+            </div>
         </header>
 
         <!-- メインコンテンツ -->
         <main class="content">
+            <!-- グループ参加フォーム（招待リンクでアクセスした場合に表示） -->
+            <div id="joinForm" class="join-form hidden">
+                <h2 class="modal-title">🎉 グループに参加しよう！</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 1rem;">
+                    <span id="inviteGroupName">田中家のアルバム</span>に招待されました
+                </p>
+                <div class="form-group">
+                    <label class="form-label">あなたの名前</label>
+                    <input type="text" class="form-input" id="memberName" placeholder="例: 太郎">
+                </div>
+                <button class="submit-btn" onclick="joinGroup()">グループに参加する</button>
+            </div>
+
             <!-- ホーム画面 -->
             <div id="homeTab">
-                <div class="family-header">
-                    <h2>💖 田中家のアルバム</h2>
-                    <p style="opacity: 0.9;">家族だけの特別な思い出</p>
+                <div class="family-header" onclick="showGroupNameEdit()">
+                    <div class="group-title-container">
+                        <h2 id="groupTitle">💖 田中家のアルバム</h2>
+                        <button class="edit-group-btn" title="グループ名を編集" aria-label="グループ名を編集">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p>家族だけの特別な思い出</p>
                     <div class="family-stats">
                         <div class="stat">
                             <svg class="icon" viewBox="0 0 24 24">
@@ -471,7 +955,7 @@
                                 <circle cx="9" cy="7" r="4"/>
                                 <path d="m22 21-3-3m0 0a5 5 0 1 0-7 0 5 5 0 0 0 7 0z"/>
                             </svg>
-                            <span>4人の家族</span>
+                            <span id="memberCount">4人のメンバー</span>
                         </div>
                         <div class="stat">
                             <svg class="icon" viewBox="0 0 24 24">
@@ -491,65 +975,100 @@
             <!-- メンバー画面 -->
             <div id="membersTab" class="hidden">
                 <div class="members-grid">
-                    <h2 style="margin-bottom: 1rem; font-weight: bold;">👨‍👩‍👧‍👦 家族メンバー</h2>
-                    <div class="member-item">
-                        <div class="member-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">お</div>
-                        <div>
-                            <h3 style="font-weight: 600;">お父さん</h3>
-                            <p style="font-size: 0.875rem; color: #6b7280;">管理者</p>
-                        </div>
-                    </div>
-                    <div class="member-item">
-                        <div class="member-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">お</div>
-                        <div>
-                            <h3 style="font-weight: 600;">お母さん</h3>
-                            <p style="font-size: 0.875rem; color: #6b7280;">オンライン</p>
-                        </div>
-                    </div>
-                    <div class="member-item">
-                        <div class="member-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">娘</div>
-                        <div>
-                            <h3 style="font-weight: 600;">娘</h3>
-                            <p style="font-size: 0.875rem; color: #6b7280;">オンライン</p>
-                        </div>
-                    </div>
-                    <div class="member-item">
-                        <div class="member-avatar" style="background: linear-gradient(135deg, #ec4899, #fb923c);">あ</div>
-                        <div>
-                            <h3 style="font-weight: 600;">あなた</h3>
-                            <p style="font-size: 0.875rem; color: #6b7280;">今ここ</p>
-                        </div>
+                    <h2 style="margin-bottom: 1.5rem; font-weight: 800; font-size: 1.25rem;">👨‍👩‍👧‍👦 グループメンバー</h2>
+                    <div id="membersList">
+                        <!-- メンバーがここに表示されます -->
                     </div>
                     <div class="privacy-notice">
-                        🔒 このアプリは家族専用です<br/>
+                        🔒 このアプリはプライベートグループです<br/>
                         安全に思い出を共有できます
                     </div>
                 </div>
 
                 <div class="stats-card">
-                    <h3 style="font-weight: bold; margin-bottom: 0.75rem;">📊 家族の活動</h3>
+                    <h3 style="font-weight: 800; margin-bottom: 1.5rem; font-size: 1.25rem;">📊 グループの活動</h3>
                     <div class="stat-row">
-                        <span style="color: #6b7280;">今月の投稿</span>
-                        <span style="font-weight: 600;" id="monthlyPosts">1枚</span>
+                        <span class="stat-label">今月の投稿</span>
+                        <span class="stat-value" id="monthlyPosts">1枚</span>
                     </div>
                     <div class="stat-row">
-                        <span style="color: #6b7280;">総いいね数</span>
-                        <span style="font-weight: 600;" id="totalLikes">3</span>
+                        <span class="stat-label">総いいね数</span>
+                        <span class="stat-value" id="totalLikes">3</span>
                     </div>
                     <div class="stat-row">
-                        <span style="color: #6b7280;">コメント数</span>
-                        <span style="font-weight: 600;" id="totalComments">2</span>
+                        <span class="stat-label">コメント数</span>
+                        <span class="stat-value" id="totalComments">2</span>
                     </div>
                 </div>
             </div>
         </main>
 
+        <!-- グループ名編集モーダル -->
+        <div id="groupNameModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">✏️ グループ名を編集</h2>
+                    <button class="close-btn" onclick="hideGroupNameEdit()" aria-label="閉じる">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M18 6L6 18M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">新しいグループ名</label>
+                    <input type="text" class="form-input" id="newGroupName" placeholder="例: 佐藤家のアルバム">
+                </div>
+
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                    グループ名を変更すると、すべてのメンバーに新しい名前が表示されます。
+                </p>
+
+                <button class="submit-btn" onclick="updateGroupName()">グループ名を更新</button>
+            </div>
+        </div>
+
+        <!-- 招待モーダル -->
+        <div id="inviteModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">👥 メンバーを招待</h2>
+                    <button class="close-btn" onclick="hideInvite()" aria-label="閉じる">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M18 6L6 18M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary); line-height: 1.6;">
+                    下記のリンクを家族や友人に送って、グループに招待しましょう
+                </p>
+
+                <div class="invite-link-container">
+                    <p style="font-weight: 600; margin-bottom: 0.75rem;">招待リンク:</p>
+                    <div class="invite-link" id="inviteLink">
+                        <!-- 招待リンクがここに表示されます -->
+                    </div>
+                    <button class="copy-btn" onclick="copyInviteLink()">📋 リンクをコピー</button>
+                </div>
+
+                <div class="usage-info">
+                    <h4>💡 使い方</h4>
+                    <ul>
+                        <li>リンクを送られた人だけがグループに参加できます</li>
+                        <li>参加時に名前を入力してもらいます</li>
+                        <li>リンクは安全に管理してください</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- アップロードモーダル -->
-        <div id="uploadModal" class="upload-modal hidden">
-            <div class="upload-content">
-                <div class="upload-header">
-                    <h2 style="font-weight: bold;">📸 新しい写真をシェア</h2>
-                    <button class="close-btn" onclick="hideUpload()">
+        <div id="uploadModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">📸 新しい写真をシェア</h2>
+                    <button class="close-btn" onclick="hideUpload()" aria-label="閉じる">
                         <svg class="icon" viewBox="0 0 24 24">
                             <path d="M18 6L6 18M6 6l12 12"/>
                         </svg>
@@ -563,106 +1082,146 @@
 
                 <div class="form-group">
                     <label class="form-label">📷 写真を選択</label>
-                    <div class="file-upload" id="fileUpload">
+                    <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
                         <svg class="icon-lg" viewBox="0 0 24 24" style="margin: 0 auto 1rem; display: block;">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                             <polyline points="7,10 12,15 17,10"/>
                             <line x1="12" y1="15" x2="12" y2="3"/>
                         </svg>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">写真をアップロード</p>
-                        <input type="file" class="file-input" id="photoInput" accept="image/*">
-                        <label for="photoInput" class="file-label">ファイルを選択</label>
+                        <label for="fileInput" class="file-label">写真を選択</label>
+                        <input type="file" id="fileInput" class="file-input" accept="image/*" onchange="handleFileSelect(event)">
+                        <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
+                            JPG、PNG、GIF形式に対応
+                        </p>
                     </div>
                     <div id="imagePreview" class="image-preview hidden">
-                        <img id="previewImg" class="preview-image" src="" alt="プレビュー">
-                        <button class="remove-image" onclick="removeImage()">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M18 6L6 18M6 6l12 12"/>
-                            </svg>
-                        </button>
+                        <img id="previewImg" class="preview-image" alt="プレビュー">
+                        <button class="remove-image" onclick="removeImage()" aria-label="画像を削除">×</button>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">💬 コメント</label>
-                    <textarea class="form-textarea" id="captionInput" rows="4" placeholder="この写真について家族に伝えたいことを書いてください..."></textarea>
+                    <label class="form-label">💭 コメント</label>
+                    <textarea class="form-textarea" id="commentInput" rows="3" placeholder="この写真について一言..."></textarea>
                 </div>
 
-                <button class="submit-btn" onclick="submitPost()" id="submitBtn" disabled>
-                    📤 家族に共有する
+                <button class="submit-btn" onclick="uploadPhoto()" id="uploadBtn" disabled>
+                    📤 写真をシェア
                 </button>
             </div>
         </div>
 
         <!-- ボトムナビゲーション -->
         <nav class="bottom-nav">
-            <button class="nav-btn active" onclick="showTab('home')" id="homeBtn">
-                <svg class="icon-lg" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="m12 1 3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/>
+            <button class="nav-btn active" onclick="showTab('home')" aria-label="ホーム">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
                 </svg>
                 <span class="nav-text">ホーム</span>
             </button>
-            <button class="nav-btn" onclick="showTab('members')" id="membersBtn">
-                <svg class="icon-lg" viewBox="0 0 24 24">
+            <button class="nav-btn" onclick="showTab('members')" aria-label="メンバー">
+                <svg class="icon" viewBox="0 0 24 24">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                     <circle cx="9" cy="7" r="4"/>
                     <path d="m22 21-3-3m0 0a5 5 0 1 0-7 0 5 5 0 0 0 7 0z"/>
                 </svg>
-                <span class="nav-text">家族</span>
+                <span class="nav-text">メンバー</span>
             </button>
         </nav>
     </div>
 
     <script>
-        // アプリの状態
-        let posts = [
-            {
-                id: 1,
-                user: 'お父さん',
-                avatar: 'お',
-                location: '家族旅行 - 温泉',
-                date: '2024年8月10日',
-                image: 'https://images.unsplash.com/photo-1544618300-e8ea8e6ac342?w=400&h=300&fit=crop',
-                caption: 'みんなで入った温泉、最高でした！リフレッシュできた〜♨️',
-                likes: 3,
-                comments: [
-                    { user: 'お母さん', text: 'お疲れさま！いい湯だったね' },
-                    { user: '娘', text: 'また行きたい！' }
-                ]
+        // アプリケーションの状態管理
+        let appState = {
+            currentUser: 'あなた',
+            groupId: 'group_' + Date.now(),
+            groupName: '田中家のアルバム',
+            members: [
+                { id: 1, name: 'お父さん', role: '管理者', avatar: 'お', color: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', joinedViaInvite: false },
+                { id: 2, name: 'お母さん', role: 'オンライン', avatar: 'お', color: 'linear-gradient(135deg, #10b981, #059669)', joinedViaInvite: false },
+                { id: 3, name: '娘', role: 'オンライン', avatar: '娘', color: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', joinedViaInvite: false },
+                { id: 4, name: 'あなた', role: '今ここ', avatar: 'あ', color: 'linear-gradient(135deg, #ec4899, #fb923c)', joinedViaInvite: false }
+            ],
+            posts: [
+                {
+                    id: 1,
+                    author: 'お母さん',
+                    avatar: 'お',
+                    location: '家族旅行 - 海辺',
+                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjODdDRUVCIi8+CjxjaXJjbGUgY3g9IjMwMCIgY3k9IjgwIiByPSI0MCIgZmlsbD0iI0ZGRDcwMCIvPgo8cGF0aCBkPSJNMCAyMDBMMTAwIDE4MEwyMDAgMTkwTDMwMCAxNzBMNDAwIDE4MFYzMDBIMFYyMDBaIiBmaWxsPSIjRjU5RTBCIi8+CjxwYXRoIGQ9Ik0wIDI0MEwxMDAgMjIwTDIwMCAyMzBMMzAwIDIxMEw0MDAgMjIwVjMwMEgwVjI0MFoiIGZpbGw9IiNGRkY3RUQiLz4KPHRleHQgeD0iMjAwIiB5PSIxNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzM3NDE1MSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+🏖️ 海辺の思い出</dGV4dD4KPC9zdmc+',
+                    comment: '素敵な夕日でした！家族みんなで見れて良かった ✨',
+                    likes: 3,
+                    comments: [
+                        { author: 'お父さん', text: '本当にきれいだったね！' },
+                        { author: '娘', text: 'また行きたい〜！ 🌅' }
+                    ],
+                    timestamp: new Date()
+                }
+            ]
+        };
+
+        // ローカルストレージからデータを読み込み
+        function loadAppState() {
+            const savedState = localStorage.getItem('famipic_state');
+            if (savedState) {
+                try {
+                    const parsed = JSON.parse(savedState);
+                    // 既存のデータとマージ
+                    appState = { ...appState, ...parsed };
+                    // 投稿の日付を復元
+                    appState.posts.forEach(post => {
+                        post.timestamp = new Date(post.timestamp);
+                    });
+                } catch (e) {
+                    console.error('Failed to load app state:', e);
+                }
             }
-        ];
+        }
 
-        let currentTab = 'home';
-        let selectedImage = null;
+        // ローカルストレージにデータを保存
+        function saveAppState() {
+            try {
+                localStorage.setItem('famipic_state', JSON.stringify(appState));
+            } catch (e) {
+                console.error('Failed to save app state:', e);
+            }
+        }
 
-        // 初期化
+        // ページ読み込み時の初期化
         document.addEventListener('DOMContentLoaded', function() {
-            renderPosts();
-            updateStats();
+            loadAppState();
             
-            // ファイル選択の処理
-            document.getElementById('photoInput').addEventListener('change', handleImageSelect);
+            // URLパラメータをチェックして招待リンクかどうか判定
+            const urlParams = new URLSearchParams(window.location.search);
+            const inviteCode = urlParams.get('invite');
             
-            // 入力フィールドの監視
-            document.getElementById('locationInput').addEventListener('input', validateForm);
-            document.getElementById('captionInput').addEventListener('input', validateForm);
+            if (inviteCode) {
+                showJoinForm(inviteCode);
+            } else {
+                initializeApp();
+            }
         });
 
-        // タブ切り替え
-        function showTab(tab) {
-            currentTab = tab;
+        // アプリの初期化
+        function initializeApp() {
+            updateUI();
+            renderPosts();
+            renderMembers();
+        }
+
+        // UIの更新
+        function updateUI() {
+            document.getElementById('groupTitle').textContent = `💖 ${appState.groupName}`;
+            document.getElementById('memberCount').textContent = `${appState.members.length}人のメンバー`;
+            document.getElementById('photoCount').textContent = `${appState.posts.length}枚の写真`;
+            document.getElementById('monthlyPosts').textContent = `${appState.posts.length}枚`;
             
-            // タブコンテンツの表示切り替え
-            document.getElementById('homeTab').classList.toggle('hidden', tab !== 'home');
-            document.getElementById('membersTab').classList.toggle('hidden', tab !== 'members');
+            const totalLikes = appState.posts.reduce((sum, post) => sum + post.likes, 0);
+            const totalComments = appState.posts.reduce((sum, post) => sum + post.comments.length, 0);
             
-            // ナビゲーションボタンの状態更新
-            document.getElementById('homeBtn').classList.toggle('active', tab === 'home');
-            document.getElementById('membersBtn').classList.toggle('active', tab === 'members');
-            
-            // アップロードボタンの表示制御
-            document.getElementById('addBtn').style.display = tab === 'home' ? 'flex' : 'none';
+            document.getElementById('totalLikes').textContent = totalLikes;
+            document.getElementById('totalComments').textContent = totalComments;
         }
 
         // 投稿の表示
@@ -670,179 +1229,418 @@
             const container = document.getElementById('postsContainer');
             container.innerHTML = '';
 
-            posts.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.className = 'post-card';
-                postElement.innerHTML = `
-                    <div class="post-header">
-                        <div class="avatar">${post.avatar}</div>
-                        <div>
-                            <h3 style="font-weight: 600; color: #374151;">${post.user}</h3>
-                            <div style="display: flex; align-items: center; font-size: 0.875rem; color: #6b7280;">
-                                <svg class="icon" viewBox="0 0 24 24" style="width: 1rem; height: 1rem; margin-right: 0.25rem;">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                </svg>
-                                ${post.location} • ${post.date}
-                            </div>
-                        </div>
-                    </div>
-                    <img src="${post.image}" alt="${post.caption}" class="post-image">
-                    <div class="post-content">
-                        <p style="color: #374151; margin-bottom: 0.75rem;">${post.caption}</p>
-                        <div class="post-actions">
-                            <button class="action-btn" onclick="likePost(${post.id})">
-                                <svg class="icon" viewBox="0 0 24 24">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                                </svg>
-                                <span id="likes-${post.id}">${post.likes}</span>
-                            </button>
-                            <button class="action-btn" onclick="toggleComments(${post.id})">
-                                <svg class="icon" viewBox="0 0 24 24">
-                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                                </svg>
-                                <span>${post.comments.length}</span>
-                            </button>
-                        </div>
-                        <div id="comments-${post.id}" class="comments hidden">
-                            ${post.comments.map(comment => `
-                                <div class="comment">
-                                    <span class="comment-author">${comment.user}:</span>
-                                    <span style="color: #374151;">${comment.text}</span>
-                                </div>
-                            `).join('')}
-                            <div class="comment-form">
-                                <input type="text" class="comment-input" placeholder="コメントを入力..." id="comment-input-${post.id}">
-                                <button class="comment-submit" onclick="addComment(${post.id})">送信</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+            appState.posts.forEach(post => {
+                const postElement = createPostElement(post);
                 container.appendChild(postElement);
             });
         }
 
-        // いいね機能
-        function likePost(postId) {
-            const post = posts.find(p => p.id === postId);
-            if (post) {
-                post.likes++;
-                document.getElementById(`likes-${postId}`).textContent = post.likes;
-                updateStats();
-            }
+        // 投稿要素の作成
+        function createPostElement(post) {
+            const div = document.createElement('div');
+            div.className = 'post-card';
+            div.innerHTML = `
+                <div class="post-header">
+                    <div class="avatar">${post.avatar}</div>
+                    <div class="post-author">
+                        <h3>${post.author}</h3>
+                        <p class="post-location">${post.location}</p>
+                    </div>
+                </div>
+                <img src="${post.image}" alt="${post.location}" class="post-image">
+                <div class="post-content">
+                    <div class="post-actions">
+                        <button class="action-btn" onclick="likePost(${post.id})" aria-label="いいね">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                            <span>${post.likes}</span>
+                        </button>
+                        <button class="action-btn" aria-label="コメント">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            <span>${post.comments.length}</span>
+                        </button>
+                    </div>
+                    <p class="post-comment">${post.comment}</p>
+                    <div class="comments">
+                        ${post.comments.map(comment => `
+                            <div class="comment">
+                                <span class="comment-author">${comment.author}</span>
+                                ${comment.text}
+                            </div>
+                        `).join('')}
+                        <div class="comment-form">
+                            <input type="text" class="comment-input" placeholder="コメントを追加..." onkeypress="handleCommentSubmit(event, ${post.id})" aria-label="コメントを入力">
+                            <button class="comment-submit" onclick="addComment(${post.id})" aria-label="コメントを投稿">投稿</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return div;
         }
 
-        // コメント表示切り替え
-        function toggleComments(postId) {
-            const commentsDiv = document.getElementById(`comments-${postId}`);
-            commentsDiv.classList.toggle('hidden');
+        // メンバーの表示
+        function renderMembers() {
+            const container = document.getElementById('membersList');
+            container.innerHTML = '';
+
+            appState.members.forEach(member => {
+                const memberElement = document.createElement('div');
+                memberElement.className = 'member-item';
+                
+                // 招待で参加したメンバーには特別な表示
+                const roleText = member.joinedViaInvite ? 
+                    `${member.role} • 招待で参加` : member.role;
+                
+                memberElement.innerHTML = `
+                    <div class="member-avatar" style="background: ${member.color};">${member.avatar}</div>
+                    <div class="member-info">
+                        <h3>${member.name}</h3>
+                        <p class="member-role">${roleText}</p>
+                    </div>
+                `;
+                container.appendChild(memberElement);
+            });
         }
 
-        // コメント追加
-        function addComment(postId) {
-            const input = document.getElementById(`comment-input-${postId}`);
-            const text = input.value.trim();
+        // タブの切り替え
+        function showTab(tabName) {
+            // すべてのタブを非表示
+            document.getElementById('homeTab').classList.add('hidden');
+            document.getElementById('membersTab').classList.add('hidden');
             
-            if (text) {
-                const post = posts.find(p => p.id === postId);
-                if (post) {
-                    post.comments.push({ user: 'あなた', text: text });
-                    input.value = '';
-                    renderPosts();
-                    updateStats();
-                    // コメント欄を開いたままにする
-                    setTimeout(() => {
-                        document.getElementById(`comments-${postId}`).classList.remove('hidden');
-                    }, 0);
-                }
-            }
-        }
-
-        // 統計更新
-        function updateStats() {
-            const totalLikes = posts.reduce((sum, post) => sum + post.likes, 0);
-            const totalComments = posts.reduce((sum, post) => sum + post.comments.length, 0);
+            // 選択されたタブを表示
+            document.getElementById(tabName + 'Tab').classList.remove('hidden');
             
-            document.getElementById('photoCount').textContent = `${posts.length}枚の写真`;
-            document.getElementById('monthlyPosts').textContent = `${posts.length}枚`;
-            document.getElementById('totalLikes').textContent = totalLikes;
-            document.getElementById('totalComments').textContent = totalComments;
+            // ナビゲーションボタンの状態更新
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.nav-btn').classList.add('active');
         }
 
-        // アップロードモーダル表示
+        // グループ名編集モーダルの表示
+        function showGroupNameEdit() {
+            document.getElementById('newGroupName').value = appState.groupName.replace('💖 ', '');
+            document.getElementById('groupNameModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // フォーカスを設定
+            setTimeout(() => {
+                document.getElementById('newGroupName').focus();
+                document.getElementById('newGroupName').select();
+            }, 100);
+        }
+
+        // グループ名編集モーダルの非表示
+        function hideGroupNameEdit() {
+            document.getElementById('groupNameModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // グループ名の更新
+        function updateGroupName() {
+            const newName = document.getElementById('newGroupName').value.trim();
+            
+            if (!newName) {
+                alert('グループ名を入力してください');
+                return;
+            }
+
+            appState.groupName = newName;
+            updateUI();
+            saveAppState();
+            hideGroupNameEdit();
+            
+            // 成功メッセージ
+            setTimeout(() => {
+                alert(`✨ グループ名を「${newName}」に変更しました！`);
+            }, 300);
+        }
+
+        // 招待モーダルの表示
+        function showInvite() {
+            const inviteLink = `${window.location.origin}${window.location.pathname}?invite=${appState.groupId}&group=${encodeURIComponent(appState.groupName)}`;
+            document.getElementById('inviteLink').textContent = inviteLink;
+            document.getElementById('inviteModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 招待モーダルの非表示
+        function hideInvite() {
+            document.getElementById('inviteModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 招待リンクのコピー
+        function copyInviteLink() {
+            const inviteLink = document.getElementById('inviteLink').textContent;
+            navigator.clipboard.writeText(inviteLink).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ コピーしました！';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            }).catch(() => {
+                // フォールバック: テキストエリアを使用
+                const textArea = document.createElement('textarea');
+                textArea.value = inviteLink;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ コピーしました！';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // グループ参加フォームの表示
+        function showJoinForm(inviteCode) {
+            // URLパラメータからグループ名を取得
+            const urlParams = new URLSearchParams(window.location.search);
+            const groupName = urlParams.get('group');
+            
+            if (groupName) {
+                document.getElementById('inviteGroupName').textContent = decodeURIComponent(groupName);
+            }
+            
+            document.getElementById('joinForm').classList.remove('hidden');
+            document.getElementById('homeTab').classList.add('hidden');
+            document.querySelector('.bottom-nav').style.display = 'none';
+            
+            // フォーカスを設定
+            setTimeout(() => {
+                document.getElementById('memberName').focus();
+            }, 100);
+        }
+
+        // グループへの参加
+        function joinGroup() {
+            const memberName = document.getElementById('memberName').value.trim();
+            
+            if (!memberName) {
+                alert('名前を入力してください');
+                return;
+            }
+
+            // URLパラメータからグループ情報を取得
+            const urlParams = new URLSearchParams(window.location.search);
+            const groupName = urlParams.get('group');
+            
+            if (groupName) {
+                appState.groupName = decodeURIComponent(groupName);
+            }
+
+            // 新しいメンバーを追加
+            const avatarColors = [
+                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                'linear-gradient(135deg, #f59e0b, #f97316)',
+                'linear-gradient(135deg, #06b6d4, #0891b2)',
+                'linear-gradient(135deg, #84cc16, #65a30d)',
+                'linear-gradient(135deg, #ef4444, #dc2626)'
+            ];
+            
+            const newMember = {
+                id: appState.members.length + 1,
+                name: memberName,
+                role: 'オンライン',
+                avatar: memberName.charAt(0),
+                color: avatarColors[appState.members.length % avatarColors.length],
+                joinedViaInvite: true
+            };
+            
+            appState.members.push(newMember);
+            appState.currentUser = memberName;
+
+            // データを保存
+            saveAppState();
+
+            // UIを更新
+            document.getElementById('joinForm').classList.add('hidden');
+            document.getElementById('homeTab').classList.remove('hidden');
+            document.querySelector('.bottom-nav').style.display = 'flex';
+            
+            // URLからパラメータを削除
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+            initializeApp();
+            
+            // 参加成功メッセージ
+            setTimeout(() => {
+                alert(`🎉 ${appState.groupName}に参加しました！`);
+            }, 500);
+        }
+
+        // アップロードモーダルの表示
         function showUpload() {
             document.getElementById('uploadModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
         }
 
-        // アップロードモーダル非表示
+        // アップロードモーダルの非表示
         function hideUpload() {
             document.getElementById('uploadModal').classList.add('hidden');
-            // フォームリセット
-            document.getElementById('locationInput').value = '';
-            document.getElementById('captionInput').value = '';
-            document.getElementById('photoInput').value = '';
-            removeImage();
+            document.body.style.overflow = 'auto';
+            resetUploadForm();
         }
 
-        // 画像選択処理
-        function handleImageSelect(event) {
+        // ファイル選択の処理
+        function handleFileSelect(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    selectedImage = e.target.result;
-                    document.getElementById('previewImg').src = selectedImage;
+                    document.getElementById('previewImg').src = e.target.result;
                     document.getElementById('imagePreview').classList.remove('hidden');
-                    document.getElementById('fileUpload').style.display = 'none';
-                    validateForm();
+                    document.getElementById('uploadBtn').disabled = false;
                 };
                 reader.readAsDataURL(file);
             }
         }
 
-        // 画像削除
+        // 画像の削除
         function removeImage() {
-            selectedImage = null;
             document.getElementById('imagePreview').classList.add('hidden');
-            document.getElementById('fileUpload').style.display = 'block';
-            document.getElementById('photoInput').value = '';
-            validateForm();
+            document.getElementById('fileInput').value = '';
+            document.getElementById('uploadBtn').disabled = true;
         }
 
-        // フォーム検証
-        function validateForm() {
+        // 写真のアップロード
+        function uploadPhoto() {
             const location = document.getElementById('locationInput').value.trim();
-            const caption = document.getElementById('captionInput').value.trim();
-            const hasImage = selectedImage !== null;
+            const comment = document.getElementById('commentInput').value.trim();
+            const imageUrl = document.getElementById('previewImg').src;
+
+            if (!location || !comment || !imageUrl) {
+                alert('すべての項目を入力してください');
+                return;
+            }
+
+            // 新しい投稿を作成
+            const newPost = {
+                id: appState.posts.length + 1,
+                author: appState.currentUser,
+                avatar: appState.currentUser.charAt(0),
+                location: location,
+                image: imageUrl,
+                comment: comment,
+                likes: 0,
+                comments: [],
+                timestamp: new Date()
+            };
+
+            appState.posts.unshift(newPost);
             
-            const isValid = location && caption && hasImage;
-            document.getElementById('submitBtn').disabled = !isValid;
+            // データを保存
+            saveAppState();
+            
+            // UIを更新
+            renderPosts();
+            updateUI();
+            hideUpload();
+            
+            // 成功メッセージ
+            setTimeout(() => {
+                alert('📸 写真をシェアしました！');
+            }, 300);
         }
 
-        // 投稿送信
-        function submitPost() {
-            const location = document.getElementById('locationInput').value.trim();
-            const caption = document.getElementById('captionInput').value.trim();
-            
-            if (location && caption && selectedImage) {
-                const newPost = {
-                    id: posts.length + 1,
-                    user: 'あなた',
-                    avatar: 'あ',
-                    location: location,
-                    date: new Date().toLocaleDateString('ja-JP'),
-                    image: selectedImage,
-                    caption: caption,
-                    likes: 0,
-                    comments: []
-                };
-                
-                posts.unshift(newPost); // 最新の投稿を最初に表示
+        // アップロードフォームのリセット
+        function resetUploadForm() {
+            document.getElementById('locationInput').value = '';
+            document.getElementById('commentInput').value = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('uploadBtn').disabled = true;
+        }
+
+        // いいね機能
+        function likePost(postId) {
+            const post = appState.posts.find(p => p.id === postId);
+            if (post) {
+                post.likes++;
+                saveAppState();
                 renderPosts();
-                updateStats();
-                hideUpload();
+                updateUI();
             }
         }
+
+        // コメント追加
+        function addComment(postId) {
+            const post = appState.posts.find(p => p.id === postId);
+            const commentInput = event.target.previousElementSibling;
+            const commentText = commentInput.value.trim();
+
+            if (commentText && post) {
+                post.comments.push({
+                    author: appState.currentUser,
+                    text: commentText
+                });
+                commentInput.value = '';
+                saveAppState();
+                renderPosts();
+                updateUI();
+            }
+        }
+
+        // Enterキーでコメント投稿
+        function handleCommentSubmit(event, postId) {
+            if (event.key === 'Enter') {
+                addComment(postId);
+            }
+        }
+
+        // モーダル外クリックで閉じる
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // キーボードショートカット
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                // すべてのモーダルを閉じる
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.add('hidden');
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // パフォーマンス最適化: 画像の遅延読み込み
+        function lazyLoadImages() {
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('loading');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        }
+
+        // 初期化時に遅延読み込みを設定
+        document.addEventListener('DOMContentLoaded', lazyLoadImages);
     </script>
 </body>
 </html>
+
