@@ -25,6 +25,10 @@
             --gradient-hover: linear-gradient(135deg, #db2777 0%, #f97316 100%);
             --glass-bg: rgba(255, 255, 255, 0.9);
             --glass-border: rgba(255, 255, 255, 0.2);
+            --google-blue: #4285f4;
+            --google-green: #34a853;
+            --google-yellow: #fbbc05;
+            --google-red: #ea4335;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -37,10 +41,6 @@
                 --text-muted: #94a3b8;
                 --border-color: #334155;
                 --border-light: #475569;
-                --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-                --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
                 --glass-bg: rgba(30, 41, 59, 0.9);
                 --glass-border: rgba(255, 255, 255, 0.1);
             }
@@ -117,10 +117,6 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
-        .header-btn:active {
-            transform: translateY(0) scale(0.95);
-        }
-
         .content {
             padding: 1.5rem 1rem;
             padding-bottom: 6rem;
@@ -144,55 +140,11 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
-        .family-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            pointer-events: none;
-        }
-
-        .family-header > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .group-title-container {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
-        }
-
         .family-header h2 {
             font-size: 1.75rem;
             font-weight: 800;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            flex: 1;
-        }
-
-        .edit-group-btn {
-            width: 2rem;
-            height: 2rem;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0.7;
-        }
-
-        .edit-group-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-            opacity: 1;
+            margin-bottom: 0.5rem;
         }
 
         .family-header p {
@@ -201,142 +153,153 @@
             font-weight: 500;
         }
 
-        .family-stats {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        
-        .post-card {
+        /* Google Photos Integration Styles */
+        .google-photos-section {
             background: var(--bg-secondary);
             border-radius: 1rem;
             box-shadow: var(--shadow-md);
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 2rem;
+            padding: 2rem;
             border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
         }
 
-        .post-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--accent-primary);
+        .google-photos-section:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
-        
-        .post-header {
-            padding: 1.25rem 1.5rem;
+
+        .google-photos-header {
             display: flex;
             align-items: center;
             gap: 1rem;
-            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 1.5rem;
         }
 
-        .avatar {
-            width: 3rem;
-            height: 3rem;
-            background: var(--gradient);
-            border-radius: 50%;
+        .google-logo {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(45deg, var(--google-blue), var(--google-green), var(--google-yellow), var(--google-red));
+            border-radius: 0.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 1.125rem;
-            box-shadow: var(--shadow-md);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-size: 1rem;
         }
 
-        .post-author h3 {
-            font-weight: 700;
+        .google-connect-btn {
+            background: var(--google-blue);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
             font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .google-connect-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .google-album-link {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .google-album-link input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .create-album-btn {
+            background: var(--google-green);
+            color: white;
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            margin-right: 0.75rem;
+        }
+
+        .create-album-btn:hover {
+            background: #2d7d32;
+            transform: translateY(-1px);
+        }
+
+        .album-item {
+            background: var(--bg-tertiary);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .album-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+        }
+
+        .album-title {
+            font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
 
-        .post-location {
+        .album-meta {
             font-size: 0.875rem;
             color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .post-image {
-            width: 100%;
-            height: 18rem;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .post-card:hover .post-image {
-            transform: scale(1.02);
-        }
-
-        .post-content {
-            padding: 1.5rem;
-        }
-
-        .post-actions {
-            display: flex;
-            justify-content: space-between;
             margin-bottom: 1rem;
         }
 
-        .action-btn {
-            background: none;
-            border: none;
+        .album-actions {
             display: flex;
-            align-items: center;
             gap: 0.5rem;
-            color: var(--accent-primary);
-            cursor: pointer;
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .action-btn:hover {
-            background: rgba(236, 72, 153, 0.1);
-            transform: translateY(-1px);
-            color: var(--accent-hover);
-        }
-        
-        .post-comment {
             margin-bottom: 1rem;
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--text-primary);
         }
 
-        .comments {
-            border-top: 1px solid var(--border-light);
-            padding-top: 1rem;
-            margin-top: 1rem;
+        .album-action-btn {
+            background: rgba(66, 133, 244, 0.1);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            color: var(--google-blue);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        .comment {
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            padding: 0.75rem;
-            background: var(--bg-tertiary);
-            border-radius: 0.75rem;
+        .album-action-btn:hover {
+            background: rgba(66, 133, 244, 0.2);
+            transform: translateY(-1px);
         }
 
-        .comment-author {
-            font-weight: 700;
-            margin-right: 0.5rem;
-            color: var(--accent-primary);
-        }
-        
-        .comment-form {
+        .add-comment-form {
             display: flex;
             gap: 0.75rem;
             margin-top: 1rem;
@@ -344,254 +307,66 @@
 
         .comment-input {
             flex: 1;
-            padding: 0.875rem 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
             outline: none;
             background: var(--bg-secondary);
             color: var(--text-primary);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.9rem;
         }
-        
-        .comment-input:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+
+        .comment-submit-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .comment-submit-btn:hover {
+            background: var(--accent-hover);
             transform: translateY(-1px);
         }
 
-        .comment-submit {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 0.875rem 1.5rem;
+        .google-photos-info {
+            background: rgba(66, 133, 244, 0.1);
             border-radius: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(66, 133, 244, 0.2);
         }
 
-        .comment-submit:hover {
-            background: var(--gradient-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 1rem;
-            backdrop-filter: blur(8px);
-            animation: modalFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                backdrop-filter: blur(0px);
-            }
-            to {
-                opacity: 1;
-                backdrop-filter: blur(8px);
-            }
-        }
-        
-        .modal-content {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 1.25rem;
-            padding: 2rem;
-            width: 100%;
-            max-width: 420px;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: var(--shadow-xl);
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        .close-btn {
-            width: 2.5rem;
-            height: 2.5rem;
-            background: var(--bg-tertiary);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .close-btn:hover {
-            background: var(--border-color);
-            transform: scale(1.1) rotate(90deg);
-            color: var(--text-primary);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
+        .google-photos-info h4 {
+            color: var(--google-blue);
+            font-weight: 700;
             margin-bottom: 0.75rem;
-            color: var(--text-primary);
-            font-size: 1rem;
         }
 
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--border-color);
-            border-radius: 0.75rem;
-            outline: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-        
-        .form-input:focus, .form-textarea:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
-            transform: translateY(-1px);
+        .google-photos-info ul {
+            list-style: none;
+            padding: 0;
         }
 
-        .file-upload {
-            border: 2px dashed var(--border-color);
-            border-radius: 0.75rem;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--bg-tertiary);
-            cursor: pointer;
-        }
-
-        .file-upload:hover {
-            border-color: var(--accent-primary);
-            background: rgba(236, 72, 153, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .file-label {
-            display: inline-block;
-            background: var(--gradient);
-            color: white;
-            padding: 0.875rem 2rem;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 600;
-            box-shadow: var(--shadow-md);
-        }
-
-        .file-label:hover {
-            background: var(--gradient-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .image-preview {
+        .google-photos-info li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
             position: relative;
-            margin-top: 1.5rem;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        .preview-image {
-            width: 100%;
-            height: 14rem;
-            object-fit: cover;
-        }
-
-        .remove-image {
+        .google-photos-info li::before {
+            content: '✓';
             position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            width: 2.25rem;
-            height: 2.25rem;
-            background: rgba(239, 68, 68, 0.9);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            left: 0;
+            color: var(--google-green);
             font-weight: 700;
-            backdrop-filter: blur(10px);
-        }
-
-        .remove-image:hover {
-            background: #dc2626;
-            transform: scale(1.1);
-        }
-        
-        .submit-btn {
-            width: 100%;
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 1.5rem;
-            font-size: 1rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            background: var(--gradient-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
         }
 
         .bottom-nav {
@@ -620,23 +395,15 @@
             padding: 0.75rem 1.25rem;
             cursor: pointer;
             border-radius: 0.75rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             color: var(--text-secondary);
-            min-width: 4rem;
         }
 
         .nav-btn.active {
             color: var(--accent-primary);
             background: rgba(236, 72, 153, 0.1);
-            transform: translateY(-2px);
         }
 
-        .nav-btn:hover:not(.active) {
-            color: var(--text-primary);
-            background: var(--bg-tertiary);
-            transform: translateY(-1px);
-        }
-        
         .nav-text {
             font-size: 0.75rem;
             margin-top: 0.5rem;
@@ -647,295 +414,16 @@
             display: none;
         }
 
-        .members-grid, .stats-card, .join-form, .data-management {
-            background: var(--bg-secondary);
-            border-radius: 1rem;
-            box-shadow: var(--shadow-md);
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border-light);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .members-grid:hover, .stats-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
-        }
-        
-        .member-item {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            margin-bottom: 1.25rem;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .member-item:hover {
-            background: var(--bg-tertiary);
-            transform: translateX(4px);
-        }
-
-        .member-avatar {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.25rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .member-info h3 {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .member-role {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .stat-row:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-weight: 700;
-            color: var(--accent-primary);
-            font-size: 1.1rem;
-        }
-
-        .privacy-notice {
-            background: rgba(236, 72, 153, 0.1);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 2rem;
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            line-height: 1.6;
-        }
-        
-        .invite-link-container {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .invite-link {
-            word-break: break-all;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-            font-size: 0.875rem;
-            color: var(--accent-primary);
-            background: var(--bg-secondary);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-            border: 1px solid var(--border-color);
-        }
-
-        .copy-btn {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .copy-btn:hover {
-            background: var(--gradient-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .usage-info {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: var(--bg-tertiary);
-            border-radius: 0.75rem;
-            border: 1px solid var(--border-light);
-        }
-
-        .usage-info h4 {
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .usage-info ul {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            list-style: none;
-            padding: 0;
-        }
-
-        .usage-info li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .usage-info li::before {
-            content: '•';
-            color: var(--accent-primary);
-            font-weight: 700;
-            position: absolute;
-            left: 0;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            flex-direction: column;
-        }
-        
-        .data-btn {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-        }
-
-        .data-btn:hover {
-            background: var(--border-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .file-upload-input {
-            display: none;
-        }
-        
-        .timestamp {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-            text-align: right;
-            border-top: 1px dashed var(--border-light);
-            padding-top: 0.5rem;
-        }
-        
-        /* SVG Icons */
         .icon {
             width: 1.25rem;
             height: 1.25rem;
             fill: currentColor;
-            flex-shrink: 0;
         }
 
-        .icon-lg {
-            width: 1.75rem;
-            height: 1.75rem;
-        }
-
-        /* Responsive design */
         @media (max-width: 480px) {
-            .app {
-                max-width: 100%;
-            }
-            
             .content {
                 padding: 1rem 0.75rem;
             }
-            
-            .family-header {
-                padding: 1.5rem 1.25rem;
-                margin: 0 0.75rem 1.5rem;
-            }
-
-            .post-card {
-                margin: 0 0.75rem 1.5rem;
-            }
-
-            .members-grid, .stats-card, .join-form, .data-management {
-                margin: 0 0.75rem 1.5rem;
-                padding: 1.5rem;
-            }
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-tertiary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-hover);
-        }
-
-        /* Loading animation */
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .loading {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        /* Focus styles for accessibility */
-        button:focus-visible,
-        input:focus-visible,
-        textarea:focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
         }
     </style>
 </head>
@@ -944,242 +432,80 @@
         <header class="header">
             <h1>📱 FamiPic</h1>
             <div class="header-actions">
-                <button class="header-btn" onclick="showInvite()" title="メンバーを招待" aria-label="メンバーを招待">
+                <button class="header-btn" onclick="showGooglePhotos()" title="Google フォト">
                     <svg class="icon" viewBox="0 0 24 24">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                        <circle cx="8.5" cy="7" r="4"/>
-                        <line x1="20" y1="8" x2="20" y2="14"/>
-                        <line x1="23" y1="11" x2="17" y2="11"/>
-                    </svg>
-                </button>
-                <button class="header-btn" onclick="showUpload()" id="addBtn" aria-label="写真を追加">
-                    <svg class="icon" viewBox="0 0 24 24">
-                        <path d="M12 4v16m8-8H4"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="m12 1 3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/>
                     </svg>
                 </button>
             </div>
         </header>
 
         <main class="content">
-            <div id="joinForm" class="join-form hidden">
-                <h2 class="modal-title">🎉 グループに参加しよう！</h2>
-                <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 1rem;">
-                    <span id="inviteGroupName">田中家のアルバム</span>に招待されました
-                </p>
-                <div class="form-group">
-                    <label class="form-label">あなたの名前</label>
-                    <input type="text" class="form-input" id="memberName" placeholder="例: 太郎">
-                </div>
-                <button class="submit-btn" onclick="joinGroup()">グループに参加する</button>
-            </div>
-
             <div id="homeTab">
-                <div class="family-header" onclick="showGroupNameEdit()">
-                    <div class="group-title-container">
-                        <h2 id="groupTitle">💖 田中家のアルバム</h2>
-                        <button class="edit-group-btn" title="グループ名を編集" aria-label="グループ名を編集">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <p>家族だけの特別な思い出</p>
-                    <div class="family-stats">
-                        <div class="stat">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                <circle cx="9" cy="7" r="4"/>
-                                <path d="m22 21-3-3m0 0a5 5 0 1 0-7 0 5 5 0 0 0 7 0z"/>
-                            </svg>
-                            <span id="memberCount">4人のメンバー</span>
+                <div class="family-header">
+                    <h2 id="groupTitle">💖 田中家のアルバム</h2>
+                    <p>家族だけの特別な思い出をGoogle フォトで共有</p>
+                </div>
+
+                <!-- Google Photos Integration Section -->
+                <div class="google-photos-section">
+                    <div class="google-photos-header">
+                        <div class="google-logo">G</div>
+                        <div>
+                            <h3 style="font-weight: 700; margin-bottom: 0.25rem;">Google フォト連携</h3>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary);">家族でアルバムを共有・編集</p>
                         </div>
-                        <div class="stat">
+                    </div>
+
+                    <div id="googlePhotosContent">
+                        <button class="google-connect-btn" onclick="connectGooglePhotos()">
                             <svg class="icon" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="3"/>
                                 <path d="m12 1 3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/>
                             </svg>
-                            <span id="photoCount">1枚の写真</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="postsContainer">
-                    </div>
-            </div>
-
-            <div id="membersTab" class="hidden">
-                <div class="members-grid">
-                    <h2 style="margin-bottom: 1.5rem; font-weight: 800; font-size: 1.25rem;">👨‍👩‍👧‍👦 グループメンバー</h2>
-                    <div id="membersList">
-                        </div>
-                    <div class="privacy-notice">
-                        🔒 このアプリはプライベートグループです<br/>
-                        安全に思い出を共有できます
-                    </div>
-                </div>
-
-                <div class="stats-card">
-                    <h3 style="font-weight: 800; margin-bottom: 1.5rem; font-size: 1.25rem;">📊 グループの活動</h3>
-                    <div class="stat-row">
-                        <span class="stat-label">今月の投稿</span>
-                        <span class="stat-value" id="monthlyPosts">1枚</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">総いいね数</span>
-                        <span class="stat-value" id="totalLikes">3</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">コメント数</span>
-                        <span class="stat-value" id="totalComments">2</span>
-                    </div>
-                </div>
-
-                <div class="data-management">
-                    <h3 style="font-weight: 800; margin-bottom: 1.5rem; font-size: 1.25rem;">💾 データ管理</h3>
-                    <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
-                        ローカルに保存されたデータをバックアップしたり、別のデバイスにデータを移行したりできます。
-                    </p>
-                    <div class="button-group">
-                        <button class="data-btn" onclick="exportData()">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7,10 12,15 17,10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                            データをエクスポート
+                            Google フォトと連携する
                         </button>
-                        <label class="data-btn" for="importFile">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="17,10 12,15 7,10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                            データをインポート
-                        </label>
-                        <input type="file" id="importFile" class="file-upload-input" accept=".json" onchange="importData(event)">
+
+                        <div class="google-album-link">
+                            <input type="text" id="albumLinkInput" placeholder="Google フォトのアルバムリンクを貼り付け..." style="margin-bottom: 1rem;">
+                            <div>
+                                <button class="create-album-btn" onclick="createNewAlbum()">新しいアルバムを作成</button>
+                                <button class="create-album-btn" onclick="addExistingAlbum()" style="background: var(--accent-primary);">既存のアルバムを追加</button>
+                            </div>
+                        </div>
+
+                        <div id="albumsList" class="shared-albums-list">
+                            <!-- アルバム一覧がここに表示される -->
+                        </div>
+
+                        <div class="google-photos-info">
+                            <h4>💡 Google フォト連携の利点</h4>
+                            <ul>
+                                <li>家族全員が写真をアップロード・編集できる</li>
+                                <li>高画質の写真を無制限で共有</li>
+                                <li>リアルタイムでコメントを追加</li>
+                                <li>自動バックアップで写真が失われない</li>
+                                <li>顔認識で家族の写真を自動整理</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
 
-        <div id="groupNameModal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">✏️ グループ名を編集</h2>
-                    <button class="close-btn" onclick="hideGroupNameEdit()" aria-label="閉じる">
-                        <svg class="icon" viewBox="0 0 24 24">
-                            <path d="M18 6L6 18M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">新しいグループ名</label>
-                    <input type="text" class="form-input" id="newGroupName" placeholder="例: 佐藤家のアルバム">
-                </div>
-
-                <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
-                    グループ名を変更すると、すべてのメンバーに新しい名前が表示されます。
-                </p>
-
-                <button class="submit-btn" onclick="updateGroupName()">グループ名を更新</button>
-            </div>
-        </div>
-
-        <div id="inviteModal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">👥 メンバーを招待</h2>
-                    <button class="close-btn" onclick="hideInvite()" aria-label="閉じる">
-                        <svg class="icon" viewBox="0 0 24 24">
-                            <path d="M18 6L6 18M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <p style="margin-bottom: 1.5rem; color: var(--text-secondary); line-height: 1.6;">
-                    下記のリンクを家族や友人に送って、グループに招待しましょう
-                </p>
-
-                <div class="invite-link-container">
-                    <p style="font-weight: 600; margin-bottom: 0.75rem;">招待リンク:</p>
-                    <div class="invite-link" id="inviteLink">
-                        </div>
-                    <button class="copy-btn" onclick="copyInviteLink()">📋 リンクをコピー</button>
-                </div>
-
-                <div class="usage-info">
-                    <h4>💡 使い方</h4>
-                    <ul>
-                        <li>リンクを送られた人だけがグループに参加できます</li>
-                        <li>参加時に名前を入力してもらいます</li>
-                        <li>リンクは安全に管理してください</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div id="uploadModal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">📸 新しい写真をシェア</h2>
-                    <button class="close-btn" onclick="hideUpload()" aria-label="閉じる">
-                        <svg class="icon" viewBox="0 0 24 24">
-                            <path d="M18 6L6 18M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">📍 場所・イベント</label>
-                    <input type="text" class="form-input" id="locationInput" placeholder="例: 家族旅行 - 海辺、誕生日パーティー">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">📷 写真を選択</label>
-                    <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
-                        <svg class="icon-lg" viewBox="0 0 24 24" style="margin: 0 auto 1rem; display: block;">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7,10 12,15 17,10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        <label for="fileInput" class="file-label">写真を選択</label>
-                        <input type="file" id="fileInput" class="file-input" accept="image/*" onchange="handleFileSelect(event)">
-                        <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
-                            JPG、PNG、GIF形式に対応
-                        </p>
-                    </div>
-                    <div id="imagePreview" class="image-preview hidden">
-                        <img id="previewImg" class="preview-image" alt="プレビュー">
-                        <button class="remove-image" onclick="removeImage()" aria-label="画像を削除">×</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">💭 コメント</label>
-                    <textarea class="form-textarea" id="commentInput" rows="3" placeholder="この写真について一言..."></textarea>
-                </div>
-
-                <button class="submit-btn" onclick="uploadPhoto()" id="uploadBtn" disabled>
-                    📤 写真をシェア
-                </button>
-            </div>
-        </div>
-
         <nav class="bottom-nav">
-            <button class="nav-btn active" onclick="showTab('home', event)" aria-label="ホーム">
+            <button class="nav-btn active">
                 <svg class="icon" viewBox="0 0 24 24">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     <polyline points="9,22 9,12 15,12 15,22"/>
                 </svg>
                 <span class="nav-text">ホーム</span>
             </button>
-            <button class="nav-btn" onclick="showTab('members', event)" aria-label="メンバー">
+            <button class="nav-btn">
                 <svg class="icon" viewBox="0 0 24 24">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                     <circle cx="9" cy="7" r="4"/>
-                    <path d="m22 21-3-3m0 0a5 5 0 1 0-7 0 5 5 0 0 0 7 0z"/>
                 </svg>
                 <span class="nav-text">メンバー</span>
             </button>
@@ -1187,547 +513,191 @@
     </div>
 
     <script>
-        // アプリケーションの状態管理
         let appState = {
             currentUser: 'あなた',
             groupId: 'group_' + Date.now(),
             groupName: '田中家のアルバム',
-            members: [
-                { id: 1, name: 'お父さん', role: '管理者', avatar: 'お', color: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', joinedViaInvite: false },
-                { id: 2, name: 'お母さん', role: 'オンライン', avatar: 'お', color: 'linear-gradient(135deg, #10b981, #059669)', joinedViaInvite: false },
-                { id: 3, name: '娘', role: 'オンライン', avatar: '娘', color: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', joinedViaInvite: false },
-                { id: 4, name: 'あなた', role: '今ここ', avatar: 'あ', color: 'linear-gradient(135deg, #ec4899, #fb923c)', joinedViaInvite: false }
-            ],
-            posts: [
-                {
-                    id: 1,
-                    author: 'お母さん',
-                    avatar: 'お',
-                    location: '家族旅行 - 海辺',
-                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjOENFRUIiLz4KPHBhdGggZD0iTTAgMjAwTDEwMCAxODBMMjAwIDE5MkwzMDAgMTcwTDM4MCAxODBWNTBIMjAwTDUwIDEwMFYyMDZaIiBmaWxsPSIjRjU5RTBCIi8+CjxwYXRoIGQ9Ik0wIDI0MEwxMDAgMjIwTDIwMCAyMzBMMzAwIDIxMEw0MDAgMjIwVjMwMEgwVjI0MFoiIGZpbGw9IiNGRkY3RUQiLz4KPHRleHQgeD0iMjAwIiB5PSIxNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzM3NDE1MSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+🏖️ 海辺の思い出</dGV4dD4KPC9zdmc+',
-                    comment: '素敵な夕日でした！家族みんなで見れて良かった ✨',
-                    likes: 3,
-                    comments: [
-                        { author: 'お父さん', text: '本当にきれいだったね！' },
-                        { author: '娘', text: 'また行きたい〜！ 🌅' }
-                    ],
-                    timestamp: new Date('2025-08-15T18:00:00Z')
-                }
-            ]
+            googlePhotosConnected: false,
+            albums: []
         };
 
-        let uploadedFile = null;
+        // Google フォト連携のシミュレーション
+        function connectGooglePhotos() {
+            // 実際の実装では Google Photos API を使用
+            setTimeout(() => {
+                appState.googlePhotosConnected = true;
+                alert('✅ Google フォトに接続しました！\n新しいアルバムを作成するか、既存のアルバムを共有できます。');
+                updateGooglePhotosUI();
+            }, 1000);
+        }
 
-        // ローカルストレージからデータを読み込み
-        function loadAppState() {
-            const savedState = localStorage.getItem('famipic_state');
-            if (savedState) {
-                try {
-                    const parsed = JSON.parse(savedState);
-                    appState = { ...appState, ...parsed };
-                    appState.posts.forEach(post => {
-                        post.timestamp = new Date(post.timestamp);
-                    });
-                } catch (e) {
-                    console.error('Failed to load app state:', e);
-                }
+        function createNewAlbum() {
+            const albumName = prompt('新しいアルバム名を入力してください:', '家族の思い出 - ' + new Date().getFullYear());
+            if (albumName) {
+                const newAlbum = {
+                    id: Date.now(),
+                    name: albumName,
+                    link: `https://photos.app.goo.gl/example${Date.now()}`,
+                    photoCount: 0,
+                    contributorCount: 1,
+                    comments: [],
+                    createdBy: appState.currentUser,
+                    createdAt: new Date()
+                };
+                
+                appState.albums.push(newAlbum);
+                renderAlbums();
+                
+                // シミュレート：Google フォトでアルバム作成
+                setTimeout(() => {
+                    alert(`🎉 "${albumName}" アルバムを作成しました！\n\n共有リンク:\n${newAlbum.link}\n\nこのリンクを家族に送って共同編集を有効にしてください。`);
+                }, 500);
             }
         }
 
-        // ローカルストレージにデータを保存
-        function saveAppState() {
-            try {
-                localStorage.setItem('famipic_state', JSON.stringify(appState));
-            } catch (e) {
-                console.error('Failed to save app state:', e);
+        function addExistingAlbum() {
+            const albumLink = document.getElementById('albumLinkInput').value.trim();
+            if (!albumLink) {
+                alert('Google フォトのアルバムリンクを入力してください。');
+                return;
+            }
+
+            if (!albumLink.includes('photos.app.goo.gl') && !albumLink.includes('photos.google.com')) {
+                alert('正しいGoogle フォトのリンクを入力してください。');
+                return;
+            }
+
+            const albumName = prompt('アルバム名を入力してください:', 'インポートされたアルバム');
+            if (albumName) {
+                const importedAlbum = {
+                    id: Date.now(),
+                    name: albumName,
+                    link: albumLink,
+                    photoCount: Math.floor(Math.random() * 50) + 10,
+                    contributorCount: Math.floor(Math.random() * 5) + 2,
+                    comments: [],
+                    createdBy: '外部ユーザー',
+                    createdAt: new Date()
+                };
+                
+                appState.albums.push(importedAlbum);
+                document.getElementById('albumLinkInput').value = '';
+                renderAlbums();
+                
+                alert(`✅ "${albumName}" を追加しました！\n家族全員がこのアルバムにアクセスできます。`);
             }
         }
 
-        // ページ読み込み時の初期化
-        document.addEventListener('DOMContentLoaded', function() {
-            loadAppState();
-            
-            const urlParams = new URLSearchParams(window.location.search);
-            const inviteCode = urlParams.get('invite');
-            
-            if (inviteCode) {
-                showJoinForm(inviteCode);
-            } else {
-                initializeApp();
-            }
-        });
-
-        // アプリの初期化
-        function initializeApp() {
-            updateUI();
-            renderPosts();
-            renderMembers();
-        }
-
-        // UIの更新
-        function updateUI() {
-            document.getElementById('groupTitle').textContent = `💖 ${appState.groupName}`;
-            document.getElementById('memberCount').textContent = `${appState.members.length}人のメンバー`;
-            document.getElementById('photoCount').textContent = `${appState.posts.length}枚の写真`;
-            document.getElementById('monthlyPosts').textContent = `${appState.posts.filter(p => p.timestamp.getMonth() === new Date().getMonth()).length}枚`;
-            
-            const totalLikes = appState.posts.reduce((sum, post) => sum + post.likes, 0);
-            const totalComments = appState.posts.reduce((sum, post) => sum + post.comments.length, 0);
-            
-            document.getElementById('totalLikes').textContent = totalLikes;
-            document.getElementById('totalComments').textContent = totalComments;
-        }
-
-        // 投稿の表示
-        function renderPosts() {
-            const container = document.getElementById('postsContainer');
+        function renderAlbums() {
+            const container = document.getElementById('albumsList');
             container.innerHTML = '';
 
-            appState.posts.sort((a, b) => b.timestamp - a.timestamp).forEach(post => {
-                const postElement = createPostElement(post);
-                container.appendChild(postElement);
-            });
-        }
-
-        // タイムスタンプの整形
-        function formatTimestamp(date) {
-            const now = new Date();
-            const diffSeconds = Math.floor((now - date) / 1000);
-            const diffMinutes = Math.floor(diffSeconds / 60);
-            const diffHours = Math.floor(diffMinutes / 60);
-            const diffDays = Math.floor(diffHours / 24);
-
-            if (diffSeconds < 60) {
-                return 'たった今';
-            } else if (diffMinutes < 60) {
-                return `${diffMinutes}分前`;
-            } else if (diffHours < 24) {
-                return `${diffHours}時間前`;
-            } else if (diffDays < 7) {
-                return `${diffDays}日前`;
-            } else {
-                return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+            if (appState.albums.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted); font-style: italic; padding: 2rem;">まだアルバムがありません。新しいアルバムを作成してみましょう！</p>';
+                return;
             }
-        }
 
-        // 投稿要素の作成
-        function createPostElement(post) {
-            const div = document.createElement('div');
-            div.className = 'post-card';
-            div.innerHTML = `
-                <div class="post-header">
-                    <div class="avatar" style="background: ${getMemberColor(post.author)}">${post.avatar}</div>
-                    <div class="post-author">
-                        <h3>${post.author}</h3>
-                        <p class="post-location">${post.location}</p>
+            appState.albums.forEach(album => {
+                const albumElement = document.createElement('div');
+                albumElement.className = 'album-item';
+                albumElement.innerHTML = `
+                    <div class="album-title">${album.name}</div>
+                    <div class="album-meta">${album.photoCount}枚の写真 • ${album.contributorCount}人が参加中</div>
+                    <div class="album-actions">
+                        <button class="album-action-btn" onclick="openAlbum('${album.link}')">アルバムを開く</button>
+                        <button class="album-action-btn" onclick="copyAlbumLink('${album.link}')">リンクをコピー</button>
+                        <button class="album-action-btn" onclick="showAlbumComments(${album.id})">コメント (${album.comments.length})</button>
                     </div>
-                </div>
-                <img src="${post.image}" alt="${post.location}" class="post-image">
-                <div class="post-content">
-                    <div class="post-actions">
-                        <button class="action-btn" onclick="likePost(${post.id})" aria-label="いいね">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                            </svg>
-                            <span>${post.likes}</span>
-                        </button>
-                        <button class="action-btn" aria-label="コメント">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                            </svg>
-                            <span>${post.comments.length}</span>
-                        </button>
-                    </div>
-                    <p class="post-comment">${post.comment}</p>
-                    <div class="comments">
-                        <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">コメント</h4>
-                        ${post.comments.length > 0 ? post.comments.map(comment => `
-                            <div class="comment">
-                                <span class="comment-author">${comment.author}</span>
-                                ${comment.text}
-                            </div>
-                        `).join('') : '<p style="font-size: 0.9rem; color: var(--text-muted);">まだコメントはありません。</p>'}
-                        <div class="comment-form">
-                            <input type="text" class="comment-input" placeholder="新しいコメントを追加..." onkeypress="handleCommentSubmit(event, ${post.id})" aria-label="コメントを入力">
-                            <button class="comment-submit" onclick="addComment(${post.id})" aria-label="コメントを投稿">投稿</button>
+                    <div id="comments-${album.id}" class="hidden">
+                        <div class="add-comment-form">
+                            <input type="text" class="comment-input" placeholder="アルバムにコメントを追加..." onkeypress="handleAlbumComment(event, ${album.id})">
+                            <button class="comment-submit-btn" onclick="addAlbumComment(${album.id})">投稿</button>
+                        </div>
+                        <div id="album-comments-${album.id}">
+                            ${album.comments.map(comment => `
+                                <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 0.5rem; margin-top: 0.5rem; font-size: 0.875rem;">
+                                    <strong style="color: var(--accent-primary);">${comment.author}:</strong> ${comment.text}
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
-                    <div class="timestamp">${formatTimestamp(post.timestamp)}</div>
-                </div>
-            `;
-            return div;
-        }
-
-        // メンバーのアバターカラー取得
-        function getMemberColor(name) {
-            const member = appState.members.find(m => m.name === name);
-            if (member) {
-                return member.color;
-            }
-            return 'var(--gradient)'; // デフォルト
-        }
-
-        // メンバーの表示
-        function renderMembers() {
-            const container = document.getElementById('membersList');
-            container.innerHTML = '';
-            
-            const memberColors = [
-                'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                'linear-gradient(135deg, #10b981, #059669)',
-                'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-                'linear-gradient(135deg, #ec4899, #fb923c)',
-                'linear-gradient(135deg, #f59e0b, #f97316)',
-                'linear-gradient(135deg, #06b6d4, #0891b2)',
-                'linear-gradient(135deg, #84cc16, #65a30d)'
-            ];
-
-            appState.members.forEach((member, index) => {
-                const memberElement = document.createElement('div');
-                memberElement.className = 'member-item';
-                
-                const roleText = member.joinedViaInvite ? 
-                    `${member.role} • 招待で参加` : member.role;
-                
-                memberElement.innerHTML = `
-                    <div class="member-avatar" style="background: ${member.color || memberColors[index % memberColors.length]};">${member.avatar}</div>
-                    <div class="member-info">
-                        <h3>${member.name}</h3>
-                        <p class="member-role">${roleText}</p>
-                    </div>
                 `;
-                container.appendChild(memberElement);
-            });
-        }
-        
-        // タブの切り替え
-        function showTab(tabName, event) {
-            // すべてのタブを非表示
-            document.getElementById('homeTab').classList.add('hidden');
-            document.getElementById('membersTab').classList.add('hidden');
-            
-            // 選択されたタブを表示
-            document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            
-            // ナビゲーションボタンの状態更新
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.nav-btn').classList.add('active');
-        }
-
-        // グループ名編集モーダルの表示
-        function showGroupNameEdit() {
-            document.getElementById('newGroupName').value = appState.groupName.replace('💖 ', '');
-            document.getElementById('groupNameModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            
-            setTimeout(() => {
-                document.getElementById('newGroupName').focus();
-                document.getElementById('newGroupName').select();
-            }, 100);
-        }
-
-        // グループ名編集モーダルの非表示
-        function hideGroupNameEdit() {
-            document.getElementById('groupNameModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        // グループ名の更新
-        function updateGroupName() {
-            const newName = document.getElementById('newGroupName').value.trim();
-            
-            if (!newName) {
-                alert('グループ名を入力してください');
-                return;
-            }
-
-            appState.groupName = newName;
-            updateUI();
-            saveAppState();
-            hideGroupNameEdit();
-            
-            setTimeout(() => {
-                alert(`✨ グループ名を「${newName}」に変更しました！`);
-            }, 300);
-        }
-
-        // 招待モーダルの表示
-        function showInvite() {
-            const inviteLink = `${window.location.origin}${window.location.pathname}?invite=${appState.groupId}&group=${encodeURIComponent(appState.groupName)}`;
-            document.getElementById('inviteLink').textContent = inviteLink;
-            document.getElementById('inviteModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // 招待モーダルの非表示
-        function hideInvite() {
-            document.getElementById('inviteModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        // 招待リンクのコピー
-        function copyInviteLink() {
-            const inviteLink = document.getElementById('inviteLink').textContent;
-            navigator.clipboard.writeText(inviteLink).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✅ コピーしました！';
-                btn.style.background = '#10b981';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 2000);
+                container.appendChild(albumElement);
             });
         }
 
-        // グループ参加フォームの表示
-        function showJoinForm(inviteCode) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const groupName = urlParams.get('group');
-            
-            if (groupName) {
-                document.getElementById('inviteGroupName').textContent = decodeURIComponent(groupName);
-            }
-            
-            document.getElementById('joinForm').classList.remove('hidden');
-            document.getElementById('homeTab').classList.add('hidden');
-            document.querySelector('.bottom-nav').style.display = 'none';
-            
-            setTimeout(() => {
-                document.getElementById('memberName').focus();
-            }, 100);
+        function openAlbum(link) {
+            window.open(link, '_blank');
         }
 
-        // グループへの参加
-        function joinGroup() {
-            const memberName = document.getElementById('memberName').value.trim();
-            
-            if (!memberName) {
-                alert('名前を入力してください');
-                return;
-            }
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const groupName = urlParams.get('group');
-            
-            if (groupName) {
-                appState.groupName = decodeURIComponent(groupName);
-            }
-            
-            const avatarColors = [
-                'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                'linear-gradient(135deg, #f59e0b, #f97316)',
-                'linear-gradient(135deg, #06b6d4, #0891b2)',
-                'linear-gradient(135deg, #84cc16, #65a30d)',
-                'linear-gradient(135deg, #ef4444, #dc2626)'
-            ];
-            
-            const newMember = {
-                id: appState.members.length + 1,
-                name: memberName,
-                role: 'オンライン',
-                avatar: memberName.charAt(0),
-                color: avatarColors[appState.members.length % avatarColors.length],
-                joinedViaInvite: true
-            };
-            
-            appState.members.push(newMember);
-            appState.currentUser = memberName;
-            
-            saveAppState();
-            
-            document.getElementById('joinForm').classList.add('hidden');
-            document.getElementById('homeTab').classList.remove('hidden');
-            document.querySelector('.bottom-nav').style.display = 'flex';
-            
-            window.history.replaceState({}, document.title, window.location.pathname);
-            
-            initializeApp();
-            
-            setTimeout(() => {
-                alert(`🎉 ${appState.groupName}に参加しました！`);
-            }, 500);
+        function copyAlbumLink(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                alert('📋 アルバムリンクをコピーしました！\n家族に送って共同編集を始めましょう。');
+            });
         }
 
-        // アップロードモーダルの表示
-        function showUpload() {
-            document.getElementById('uploadModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+        function showAlbumComments(albumId) {
+            const commentsDiv = document.getElementById(`comments-${albumId}`);
+            commentsDiv.classList.toggle('hidden');
         }
 
-        // アップロードモーダルの非表示
-        function hideUpload() {
-            document.getElementById('uploadModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            resetUploadForm();
-        }
+        function addAlbumComment(albumId) {
+            const album = appState.albums.find(a => a.id === albumId);
+            const input = document.querySelector(`#comments-${albumId} .comment-input`);
+            const comment = input.value.trim();
 
-        // ファイル選択の処理
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                uploadedFile = file;
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewImg').src = e.target.result;
-                    document.getElementById('imagePreview').classList.remove('hidden');
-                    document.getElementById('uploadBtn').disabled = false;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // 画像の削除
-        function removeImage() {
-            document.getElementById('imagePreview').classList.add('hidden');
-            document.getElementById('fileInput').value = '';
-            uploadedFile = null;
-            document.getElementById('uploadBtn').disabled = true;
-        }
-
-        // 写真のアップロード
-        function uploadPhoto() {
-            const location = document.getElementById('locationInput').value.trim();
-            const comment = document.getElementById('commentInput').value.trim();
-
-            if (!location || !comment || !uploadedFile) {
-                alert('すべての項目を入力してください');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newPost = {
-                    id: Date.now(),
+            if (comment && album) {
+                album.comments.push({
                     author: appState.currentUser,
-                    avatar: appState.currentUser.charAt(0),
-                    location: location,
-                    image: e.target.result,
-                    comment: comment,
-                    likes: 0,
-                    comments: [],
+                    text: comment,
                     timestamp: new Date()
-                };
-
-                appState.posts.unshift(newPost);
-                
-                saveAppState();
-                
-                renderPosts();
-                updateUI();
-                hideUpload();
-                
-                setTimeout(() => {
-                    alert('📸 写真をシェアしました！');
-                }, 300);
-            };
-            reader.readAsDataURL(uploadedFile);
-        }
-
-        // アップロードフォームのリセット
-        function resetUploadForm() {
-            document.getElementById('locationInput').value = '';
-            document.getElementById('commentInput').value = '';
-            document.getElementById('fileInput').value = '';
-            document.getElementById('imagePreview').classList.add('hidden');
-            document.getElementById('uploadBtn').disabled = true;
-            uploadedFile = null;
-        }
-
-        // いいね機能
-        function likePost(postId) {
-            const post = appState.posts.find(p => p.id === postId);
-            if (post) {
-                post.likes++;
-                saveAppState();
-                renderPosts();
-                updateUI();
-            }
-        }
-
-        // コメント追加
-        function addComment(postId) {
-            const post = appState.posts.find(p => p.id === postId);
-            const commentInput = event.target.previousElementSibling;
-            const commentText = commentInput.value.trim();
-
-            if (commentText && post) {
-                post.comments.push({
-                    author: appState.currentUser,
-                    text: commentText
                 });
-                commentInput.value = '';
-                saveAppState();
-                renderPosts();
-                updateUI();
+                input.value = '';
+                renderAlbums();
             }
         }
 
-        // Enterキーでコメント投稿
-        function handleCommentSubmit(event, postId) {
+        function handleAlbumComment(event, albumId) {
             if (event.key === 'Enter') {
-                addComment(postId);
+                addAlbumComment(albumId);
             }
         }
 
-        // データをJSONファイルとしてエクスポート
-        function exportData() {
-            const dataStr = JSON.stringify(appState, null, 2);
-            const blob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `famipic_data_${appState.groupId}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            alert('✅ データをエクスポートしました！\nこのファイルを大切に保管してください。');
+        function showGooglePhotos() {
+            alert('🌟 Google フォト機能\n\n• 家族全員で写真をアップロード\n• リアルタイムコメント\n• 自動バックアップ\n• 高画質共有\n\n下のボタンから連携を開始してください！');
         }
 
-        // JSONファイルからデータをインポート
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) {
-                return;
+        function updateGooglePhotosUI() {
+            if (appState.googlePhotosConnected) {
+                document.querySelector('.google-connect-btn').innerHTML = '✅ Google フォトに接続済み';
+                document.querySelector('.google-connect-btn').style.background = 'var(--google-green)';
+                document.querySelector('.google-connect-btn').onclick = null;
             }
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    if (confirm('既存のデータを上書きして、このデータをインポートしますか？')) {
-                        appState = importedData;
-                        saveAppState();
-                        initializeApp();
-                        alert('✅ データをインポートしました！');
-                    }
-                } catch (error) {
-                    alert('❌ ファイル形式が正しくありません。');
-                    console.error('Import failed:', error);
-                }
-            };
-            reader.readAsText(file);
         }
 
-        // モーダル外クリックで閉じる
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAlbums();
+            
+            // デモ用のサンプルアルバムを追加
+            setTimeout(() => {
+                const sampleAlbum = {
+                    id: 1,
+                    name: '夏休みの思い出 2025',
+                    link: 'https://photos.app.goo.gl/example123',
+                    photoCount: 24,
+                    contributorCount: 4,
+                    comments: [
+                        { author: 'お母さん', text: '海辺での写真、とても素敵！', timestamp: new Date() },
+                        { author: '娘', text: 'また来年も行きたいな〜 🏖️', timestamp: new Date() }
+                    ],
+                    createdBy: 'お父さん',
+                    createdAt: new Date('2025-07-15')
+                };
+                appState.albums.push(sampleAlbum);
+                renderAlbums();
+            }, 1000);
         });
-
-        // キーボードショートカット
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                document.querySelectorAll('.modal').forEach(modal => {
-                    modal.classList.add('hidden');
-                });
-                document.body.style.overflow = 'auto';
-            }
-        });
-
     </script>
 </body>
 </html>
