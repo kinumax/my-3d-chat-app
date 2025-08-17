@@ -294,11 +294,42 @@
             font-style: italic;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 3rem;
+        .share-section {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .share-link {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-family: monospace;
             font-size: 0.875rem;
-            color: #9ca3af;
+            word-break: break-all;
+            margin-bottom: 1rem;
+        }
+
+        .copy-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+
+        .copy-btn:hover {
+            background: #2563eb;
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
         }
 
         .hidden {
@@ -414,6 +445,23 @@
             </div>
         </div>
 
+        <!-- Share Section -->
+        <div class="share-section" id="shareSection" style="display: none;">
+            <h3 class="section-title">🔗 家族と共有</h3>
+            <p style="margin-bottom: 1rem; color: #6b7280; text-align: center;">
+                このリンクを家族に送って、写真を一緒に見たり追加したりしましょう
+            </p>
+            <div class="share-link" id="shareLink"></div>
+            <div style="text-align: center;">
+                <button class="copy-btn" id="copyBtn" onclick="copyShareLink()">📋 リンクをコピー</button>
+                <button class="copy-btn" style="background: #8b5cf6;" onclick="generateQR()">📱 QRコード表示</button>
+            </div>
+            <div class="qr-code" id="qrCode" style="display: none;">
+                <p style="margin-bottom: 0.5rem; font-size: 0.875rem; color: #6b7280;">スマホでQRコードを読み取ってアクセス</p>
+                <img id="qrImage" alt="QRコード">
+            </div>
+        </div>
+
         <!-- Shared Photos -->
         <div>
             <h3 class="section-title">🖼️ 共有された写真</h3>
@@ -436,6 +484,7 @@
         let uploadedPhotos = [];
         let familyName = '';
         let members = [];
+        let albumId = getOrCreateAlbumId();
 
         // DOM elements
         const familyTitle = document.getElementById('familyTitle');
@@ -446,11 +495,17 @@
         const memberCount = document.getElementById('memberCount');
         const memberInput = document.getElementById('memberInput');
         const addMemberBtn = document.getElementById('addMemberBtn');
+        const shareSection = document.getElementById('shareSection');
+        const shareLink = document.getElementById('shareLink');
         const serviceCards = document.querySelectorAll('.service-card');
         const uploadArea = document.getElementById('uploadArea');
         const fileUpload = document.getElementById('file-upload');
         const emptyState = document.getElementById('emptyState');
         const photosGrid = document.getElementById('photosGrid');
+
+        // Initialize app
+        loadAlbumData();
+        updateShareLink();
 
         // Family name handling
         familyInput.addEventListener('input', function() {
@@ -490,6 +545,7 @@
                 familyInputContainer.classList.remove('hidden');
                 changeNameBtn.classList.add('hidden');
             }
+            saveAlbumData();
         }
 
         function updateMembersDisplay() {
@@ -499,6 +555,121 @@
             } else {
                 membersDisplay.style.display = 'none';
             }
+            saveAlbumData();
+        }
+
+        // Album ID and data persistence
+        function getOrCreateAlbumId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let id = urlParams.get('album');
+            
+            if (!id) {
+                // Create new album ID
+                id = 'album_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                // Update URL without reload
+                const newUrl = window.location.pathname + '?album=' + id;
+                history.replaceState({}, '', newUrl);
+            }
+            
+            return id;
+        }
+
+        function saveAlbumData() {
+            const albumData = {
+                familyName: familyName,
+                members: members,
+                photos: uploadedPhotos,
+                selectedService: selectedService,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            try {
+                const dataStr = JSON.stringify(albumData);
+                const compressed = btoa(encodeURIComponent(dataStr));
+                localStorage.setItem('famipic_' + albumId, compressed);
+            } catch (e) {
+                console.warn('データの保存に失敗しました:', e);
+            }
+        }
+
+        function loadAlbumData() {
+            try {
+                const compressed = localStorage.getItem('famipic_' + albumId);
+                if (compressed) {
+                    const dataStr = decodeURIComponent(atob(compressed));
+                    const albumData = JSON.parse(dataStr);
+                    
+                    familyName = albumData.familyName || '';
+                    members = albumData.members || [];
+                    uploadedPhotos = albumData.photos || [];
+                    selectedService = albumData.selectedService || '';
+                    
+                    // Update displays
+                    familyInput.value = familyName;
+                    updateFamilyTitle();
+                    updateMembersDisplay();
+                    updatePhotosDisplay();
+                    
+                    // Update service selection
+                    if (selectedService) {
+                        const serviceCard = document.querySelector(`[data-service="${selectedService}"]`);
+                        if (serviceCard) {
+                            serviceCard.classList.add('selected');
+                            serviceCard.querySelector('.use-service-btn').classList.remove('hidden');
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn('データの読み込みに失敗しました:', e);
+            }
+        }
+
+        function updateShareLink() {
+            const currentUrl = window.location.href;
+            shareLink.textContent = currentUrl;
+            
+            // Show share section if there's content to share
+            if (uploadedPhotos.length > 0 || familyName || members.length > 0) {
+                shareSection.style.display = 'block';
+            }
+        }
+
+        function copyShareLink() {
+            const copyBtn = document.getElementById('copyBtn');
+            
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '✅ コピー完了!';
+                copyBtn.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = window.location.href;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                copyBtn.textContent = '✅ コピー完了!';
+                setTimeout(() => {
+                    copyBtn.textContent = '📋 リンクをコピー';
+                }, 2000);
+            });
+        }
+
+        function generateQR() {
+            const qrDiv = document.getElementById('qrCode');
+            const qrImg = document.getElementById('qrImage');
+            
+            // Generate QR code using qr-server.com API
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.href)}`;
+            qrImg.src = qrUrl;
+            qrDiv.style.display = 'block';
         }
 
         // Service selection
@@ -516,6 +687,7 @@
                 this.classList.add('selected');
                 this.querySelector('.use-service-btn').classList.remove('hidden');
                 selectedService = service;
+                saveAlbumData();
             });
         });
 
@@ -567,6 +739,8 @@
                         };
                         uploadedPhotos.push(photo);
                         updatePhotosDisplay();
+                        updateShareLink();
+                        saveAlbumData();
                     };
                     reader.readAsDataURL(file);
                 }
